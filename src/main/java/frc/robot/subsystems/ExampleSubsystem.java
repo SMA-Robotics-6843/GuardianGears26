@@ -130,4 +130,9 @@ public class ExampleSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
     elevator.simIterate();
   }
+
+  public Command runMotor() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'runMotor'");
+  }
 }
