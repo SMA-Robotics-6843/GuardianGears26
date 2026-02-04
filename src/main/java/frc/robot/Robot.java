@@ -56,11 +56,13 @@ public class Robot extends LoggedRobot {
       Logger.recordOutput("FieldSimulation/FuelPoses", fuelPoses);
     }
 
-    Logger.recordOutput("FieldSimulation/RobotPose", m_robotContainer.getRobotPose());
+    /* TODO  eror caused by swerve drive subsystem beig deleted, should work once it is re added
+   Logger.recordOutput("FieldSimulation/RobotPose", m_robotContainer.getRobotPose());
     Logger.recordOutput("FieldSimulation/TargetPose",
         m_robotContainer.getSwerveDrive().field.getObject("targetPose").getPose());
     Logger.recordOutput("FieldSimulation/AimDirection", m_robotContainer.getAimDirection());
     Logger.recordOutput("FieldSimulation/AimTarget", new Pose3d(m_robotContainer.getAimPoint(), Rotation3d.kZero));
+    */
   }
 
   @Override
@@ -115,7 +117,8 @@ public class Robot extends LoggedRobot {
 
     arena = SimulatedArena.getInstance();
 
-    arena.addDriveTrainSimulation(m_robotContainer.getSwerveDrive().getMapleSimDrive().get());
+    // un-comment once swerve drive subsystem is restored
+    //arena.addDriveTrainSimulation(m_robotContainer.getSwerveDrive().getMapleSimDrive().get());
   }
 
   @Override
