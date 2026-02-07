@@ -145,8 +145,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.recordOutput("Shooter/LeaderVelocity", leaderSpark.getEncoder().getVelocity());
-    Logger.recordOutput("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
+    Logger.log("Shooter/LeaderVelocity", leaderSpark.getEncoder().getVelocity());
+    Logger.log("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
   }
 
   @Override

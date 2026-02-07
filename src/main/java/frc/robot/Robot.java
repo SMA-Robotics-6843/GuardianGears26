@@ -10,7 +10,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.CommandsLogging;
-import frc.robot.util.maplesim.Arena2026Rebuilt;
+
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
@@ -113,7 +113,7 @@ public class Robot extends LoggedRobot {
     // (including the drivetrain) so they can be added to a new physics world
     SimulatedArena.getInstance().shutDown();
 
-    SimulatedArena.overrideInstance(new Arena2026Rebuilt());
+    
 
     arena = SimulatedArena.getInstance();
 

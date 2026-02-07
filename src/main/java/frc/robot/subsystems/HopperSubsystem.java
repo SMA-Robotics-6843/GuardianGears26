@@ -20,7 +20,6 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
-import yams.motorcontrollers.local.NovaWrapper;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class HopperSubsystem extends SubsystemBase {

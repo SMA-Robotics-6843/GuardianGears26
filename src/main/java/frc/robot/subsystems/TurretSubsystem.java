@@ -118,8 +118,8 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     turret.updateTelemetry();
 
-    Logger.recordOutput("ASCalibration/FinalComponentPoses", new Pose3d[] {
-        new Pose3d(
+    Logger.recordOutput("ASCalibration/FinalComponentPoses", new Pose2d[] {
+        new Pose2d(
             turretTranslation,
             new Rotation3d(0, 0, turret.getAngle().in(Radians)))
     });

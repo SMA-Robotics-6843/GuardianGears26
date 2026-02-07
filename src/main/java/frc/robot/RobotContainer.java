@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import static edu.wpi.first.units.Units.Inches;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -123,12 +124,11 @@ public class RobotContainer {
     return drivetrain.getPose();
   }
 
-  public Pose3d getAimDirection() {
+  public Object getAimDirection() {
     // Apply robot heading first, then turret/hood rotation on top
     Pose3d shooterPose = superstructure.getShooterPose();
 
-    var pose = drivetrain.getPose3d().plus(new Transform3d(
-        shooterPose.getTranslation(), shooterPose.getRotation()));
+    var pose = drivetrain.getPose().plus(new Transform2d());
 
     return pose;
   }
