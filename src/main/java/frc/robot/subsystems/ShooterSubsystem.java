@@ -37,8 +37,9 @@ import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
-
-
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.epilogue.Logged;
 
 public class ShooterSubsystem extends SubsystemBase {
   // 2 Neos, 4in shooter wheels
@@ -144,9 +145,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    Logger.log("Shooter/LeaderVelocity", leaderSpark.getEncoder().getVelocity());
-    Logger.log("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
+  public void periodic() { // fix me \/
+    //Logger.log("Shooter/LeaderVelocity", leaderSpark.getEncoder().getVelocity());
+    //Logger.log("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
   }
 
   @Override

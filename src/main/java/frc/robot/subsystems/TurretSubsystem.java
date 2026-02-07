@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -118,12 +119,10 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     turret.updateTelemetry();
 
-    Logger.recordOutput("ASCalibration/FinalComponentPoses", new Pose2d[] {
-        new Pose2d(
-            turretTranslation,
-            new Rotation3d(0, 0, turret.getAngle().in(Radians)))
-    });
-  }
+    //Logger.recordOutput("ASCalibration/FinalComponentPoses", new Pose2d[] {
+        //new Pose2d()
+    };
+  
 
   @Override
   public void simulationPeriodic() {
