@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import static edu.wpi.first.units.Units.Amps;
@@ -31,15 +30,16 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
-import yams.motorcontrollers.local.NovaWrapper;
 import yams.motorcontrollers.local.SparkWrapper;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   private static final double INTAKE_SPEED = 1.0;
 
   // ThriftyNova controlling the intake roller
-  private ThriftyNova rollerNova = new ThriftyNova(Constants.IntakeConstants.kRollerMotorId);
+  private SparkMax rollerSpark = new SparkMax(Constants.IntakeConstants.kRollerMotorId, MotorType.kBrushless);
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.OPEN_LOOP)
@@ -49,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
       .withIdleMode(MotorMode.COAST)
       .withStatorCurrentLimit(Amps.of(40));
 
-  private SmartMotorController smc = new NovaWrapper(rollerNova, DCMotor.getNeoVortex(1), smcConfig);
+  private SmartMotorController smc = new SparkWrapper(rollerSpark, DCMotor.getNeoVortex(1), smcConfig);
 
   private final FlyWheelConfig intakeConfig = new FlyWheelConfig(smc)
       .withDiameter(Inches.of(4))

@@ -30,11 +30,14 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Superstructure;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import yams.mechanisms.swerve.SwerveDrive;
+import frc.robot.constants.TunerConstants;
+
 
 public class RobotContainer {
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
+  public final SwerveDriveSubsystem drivetrain = TunerConstants.createDrivetrain();
   private final TurretSubsystem turret = new TurretSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
@@ -83,7 +86,7 @@ public class RobotContainer {
 
     // Add a simple auto option to have the robot drive forward for 1 second then
     // stop
-    autoChooser.addOption("Drive Forward", drivebase.driveForward().withTimeout(10));
+    autoChooser.addOption("Drive Forward", drivetrain.driveForward().withTimeout(10));
 
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -91,29 +94,20 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Set up controllers
-    DriverControls.configure(ControllerConstants.kDriverControllerPort, drivebase, superstructure);
-    OperatorControls.configure(ControllerConstants.kOperatorControllerPort, drivebase, superstructure);
-    PoseControls.configure(ControllerConstants.kPoseControllerPort, drivebase);
+    DriverControls.configure(ControllerConstants.kDriverControllerPort, drivetrain, superstructure);
+    OperatorControls.configure(ControllerConstants.kOperatorControllerPort, drivetrain, superstructure);
+    PoseControls.configure(ControllerConstants.kPoseControllerPort, drivetrain);
   }
 
   private void buildNamedAutoCommands() {
     // Add any auto commands to the NamedCommands here
-    NamedCommands.registerCommand("ScoreCoral",
-        Commands.runOnce(() -> System.out.println("Scoring Coral!"), drivebase)
-            .andThen(Commands.waitSeconds(1))
-            .withName("Auto.ScoreCoral"));
-
-    NamedCommands.registerCommand("Dealgae",
-        Commands.runOnce(() -> System.out.println("Dealgae!"), drivebase)
-            .andThen(Commands.waitSeconds(1))
-            .withName("Auto.Dealgae"));
 
     NamedCommands.registerCommand("driveBackwards",
-        drivebase.driveBackwards().withTimeout(1)
+        drivetrain.driveBackwards().withTimeout(1)
             .withName("Auto.driveBackwards"));
 
     NamedCommands.registerCommand("driveForwards",
-        drivebase.driveForward().withTimeout(2)
+        drivetrain.driveForward().withTimeout(2)
             .withName("Auto.driveForwards"));
   }
 
@@ -122,18 +116,18 @@ public class RobotContainer {
   }
 
   public SwerveDrive getSwerveDrive() {
-    return drivebase.getSwerveDrive();
+    return drivetrain.getSwerveDrive();
   }
 
   public Pose2d getRobotPose() {
-    return drivebase.getPose();
+    return drivetrain.getPose();
   }
 
   public Pose3d getAimDirection() {
     // Apply robot heading first, then turret/hood rotation on top
     Pose3d shooterPose = superstructure.getShooterPose();
 
-    var pose = drivebase.getPose3d().plus(new Transform3d(
+    var pose = drivetrain.getPose3d().plus(new Transform3d(
         shooterPose.getTranslation(), shooterPose.getRotation()));
 
     return pose;
@@ -156,9 +150,9 @@ public class RobotContainer {
     Distance blueZone = Inches.of(182);
     Distance redZone = Inches.of(469);
 
-    if (alliance == Alliance.Blue && drivebase.getPose().getMeasureX().lt(blueZone)) {
+    if (alliance == Alliance.Blue && drivetrain.getPose().getMeasureX().lt(blueZone)) {
       return true;
-    } else if (alliance == Alliance.Red && drivebase.getPose().getMeasureX().gt(redZone)) {
+    } else if (alliance == Alliance.Red && drivetrain.getPose().getMeasureX().gt(redZone)) {
       return true;
     }
 
@@ -169,9 +163,9 @@ public class RobotContainer {
     Alliance alliance = getAlliance();
     Distance midLine = Inches.of(158.84375);
 
-    if (alliance == Alliance.Blue && drivebase.getPose().getMeasureY().lt(midLine)) {
+    if (alliance == Alliance.Blue && drivetrain.getPose().getMeasureY().lt(midLine)) {
       return true;
-    } else if (alliance == Alliance.Red && drivebase.getPose().getMeasureY().gt(midLine)) {
+    } else if (alliance == Alliance.Red && drivetrain.getPose().getMeasureY().gt(midLine)) {
       return true;
     }
 

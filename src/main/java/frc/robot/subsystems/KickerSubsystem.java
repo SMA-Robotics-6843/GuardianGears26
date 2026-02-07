@@ -6,8 +6,9 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RPM;
 
-import com.ctre.phoenix6.sim.TalonFXSimState.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,13 +23,19 @@ import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.NovaWrapper;
+import yams.motorcontrollers.local.SparkWrapper;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class KickerSubsystem extends SubsystemBase {
 
   private static final double KICKER_SPEED = 1.0;
 
   // Nova motor controller with NEO motor
-  private SparkMax kickerSparkMax = new SparkMax( 0, MotorType. kBrushless );
+ 
+  private SparkMax kickeSparkMax = new SparkMax(0, MotorType.kBrushless);
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.OPEN_LOOP)
@@ -38,7 +45,7 @@ public class KickerSubsystem extends SubsystemBase {
       .withIdleMode(MotorMode.BRAKE)
       .withStatorCurrentLimit(Amps.of(20));
 
-  private SmartMotorController smc = new NovaWrapper(kickerNova, DCMotor.getNEO(1), smcConfig);
+  private SmartMotorController smc = new SparkWrapper(kickeSparkMax, DCMotor.getNEO(1), smcConfig);
 
   private final FlyWheelConfig kickerConfig = new FlyWheelConfig(smc)
       .withDiameter(Inches.of(4))

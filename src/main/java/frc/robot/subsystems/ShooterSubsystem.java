@@ -1,8 +1,9 @@
 package frc.robot.subsystems;
 
+import java.lang.System.Logger;
 import java.util.function.Supplier;
 
-import org.littletonrobotics.junction.Logger;
+
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -36,6 +37,8 @@ import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
+
+
 
 public class ShooterSubsystem extends SubsystemBase {
   // 2 Neos, 4in shooter wheels

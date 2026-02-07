@@ -1,9 +1,8 @@
 package frc.robot.commands;
 
+import java.lang.System.Logger;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -104,9 +103,9 @@ public class ShootOnTheMoveCommand extends Command {
     Logger.recordOutput("FieldSimulation/AimTargetCorrected",
         new Pose3d(target.plus(correctiveVector3d), Rotation3d.kZero));
 
-    var correctedTarget = targetOnGround.plus(correctiveVector);
+    Translation2d correctedTarget = targetOnGround.plus(correctiveVector);
 
-    var vectorToTarget = drivetrain.getPose().getTranslation().minus(correctedTarget);
+    var vectorToTarget = drivetrain.getPose3d().getTranslation().minus(correctedTarget);
 
     var correctedDistance = Meters.of(vectorToTarget.getNorm());
     var calculatedHeading = vectorToTarget.getAngle()
@@ -117,26 +116,31 @@ public class ShootOnTheMoveCommand extends Command {
     Logger.recordOutput("ShootOnTheMove/CalculatedHeading", calculatedHeading);
     Logger.recordOutput("ShootOnTheMove/distanceToTarget", distanceToTarget);
 
-    latestTurretAngle = calculatedHeading;
+    latestTurretAngle = (Angle) calculatedHeading;
     latestShootSpeed = calculateRequiredShooterSpeed(correctedDistance);
-
-    // TODO: add this back if/when we have a real hood, for now, just set it to the
-    // current angle
-    // latestHoodAngle = calculateRequiredHoodAngle(correctedDistance);
-    latestHoodAngle = superstructure.getHoodAngle();
-
-    superstructure.setShooterSetpoints(
-        latestShootSpeed,
-        latestTurretAngle,
-        latestHoodAngle);
-
-    // System.out.println("Shooting at distance: " + correctedDistance + " requires
-    // speed: " + latestShootSpeed
-    // + ", hood angle: " + latestHoodAngle + ", turret angle: " +
-    // latestTurretAngle);
-  }
-
-  private double getFlightTime(Distance distanceToTarget) {
+    
+        // TODO: add this back if/when we have a real hood, for now, just set it to the
+        // current angle
+        // latestHoodAngle = calculateRequiredHoodAngle(correctedDistance);
+        latestHoodAngle = superstructure.getHoodAngle();
+    
+        superstructure.setShooterSetpoints(
+            latestShootSpeed,
+            latestTurretAngle,
+            latestHoodAngle);
+    
+        // System.out.println("Shooting at distance: " + correctedDistance + " requires
+        // speed: " + latestShootSpeed
+        // + ", hood angle: " + latestHoodAngle + ", turret angle: " +
+        // latestTurretAngle);
+      }
+    
+      private AngularVelocity calculateRequiredShooterSpeed(Object correctedDistance) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calculateRequiredShooterSpeed'");
+      }
+    
+      private double getFlightTime(Distance distanceToTarget) {
     // Simple linear approximation based on empirical data.
     return TIME_OF_FLIGHT_BY_DISTANCE.get(distanceToTarget.in(Meters));
   }

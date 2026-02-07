@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
 
+import java.lang.System.Logger;
 import java.util.function.Supplier;
 
-import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
