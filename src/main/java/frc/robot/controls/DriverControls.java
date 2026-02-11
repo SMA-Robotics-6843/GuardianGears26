@@ -2,7 +2,10 @@ package frc.robot.controls;
 
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.gamepieces.GamePieceProjectile;
+import org.ironmaple.simulation.seasonspecific.rebuilt2026.RebuiltFuelOnFly;
 import org.littletonrobotics.junction.Logger;
+
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -14,11 +17,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Robot;
 import frc.robot.subsystems.Superstructure;
-import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.util.maplesim.RebuiltFuelOnFly;
-import swervelib.SwerveInputStream;
+import frc.robot.subsystems.SwerveDriveSubsystem;
+//import swervelib.SwerveInputStream;
+import yams.mechanisms.swerve.utility.SwerveInputStream;
 
 public class DriverControls {
 
@@ -33,17 +37,15 @@ public class DriverControls {
     return hubPose;
   }
 
-  public static void configure(int port, SwerveSubsystem drivetrain, Superstructure superstructure) {
+  public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
     CommandXboxController controller = new CommandXboxController(port);
 
-    SwerveInputStream driveInputStream = SwerveInputStream.of(drivetrain.getSwerveDrive(),
-        () -> controller.getLeftY() * -1,
-        () -> controller.getLeftX() * -1)
-        .withControllerRotationAxis(() -> controller.getRightX() * -1)
-        .robotRelative(false)
-        .allianceRelativeControl(true)
-        .scaleTranslation(0.25) // TODO: Tune speed scaling
-        .deadband(ControllerConstants.DEADBAND);
+    var driveRequest = new SwerveRequest.FieldCentric();
+  
+    drivetrain.setControl(driveRequest.withVelocityX(-controller.getLeftY() * DrivetrainConstants.MaxSpeed)
+                                  .withVelocityY(-controller.getLeftX() * DrivetrainConstants.MaxSpeed)
+                                  .withRotationalRate(-controller.getRightX() * DrivetrainConstants.MaxAngularRate));
+
 
     // controller.rightBumper().whileTrue(Commands.run(
     // () -> {
@@ -52,8 +54,8 @@ public class DriverControls {
     // .aimWhile(true);
     // }).finallyDo(() -> driveInputStream.aimWhile(false)));
 
-    drivetrain.setDefaultCommand(
-        drivetrain.driveFieldOriented(driveInputStream).withName("Drive" + ".test"));
+    //drivetrain.setDefaultCommand(
+    //    drivetrain.driveFieldOriented(driveInputStream).withName("Drive" + ".test"));
 
     // NOTE: YAGSL way of doing direct drive to pose
     // driveInputStream.driveToPose(drivetrain.getTargetPoseSupplier(),
@@ -73,7 +75,7 @@ public class DriverControls {
     // .whileTrue(Commands.defer(
     // () -> drivetrain.driveToPose(drivetrain.getTargetPose()),
     // java.util.Set.of(drivetrain)));
-
+/* 
     if (DriverStation.isTest()) {
       // drivetrain.setDefaultCommand(driveFieldOrientedAngularVelocity);
       // Overrides drive command above!
@@ -101,10 +103,10 @@ public class DriverControls {
       controller.rightBumper()
           .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
 
-    }
+    }*/
   }
 
-  public static Command fireFuel(SwerveSubsystem drivetrain, Superstructure superstructure) {
+  public static Command fireFuel(SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
     return Commands.runOnce(() -> {
       SimulatedArena arena = SimulatedArena.getInstance();
 
@@ -113,7 +115,7 @@ public class DriverControls {
           new Translation2d(
               superstructure.turret.turretTranslation.getX() * -1,
               superstructure.turret.turretTranslation.getY()),
-          drivetrain.getSwerveDrive().getRobotVelocity(),
+          drivetrain.getSwerveDrive().getFieldRelativeSpeed(),
           drivetrain.getPose().getRotation().rotateBy(superstructure.getAimRotation3d().toRotation2d()),
           superstructure.turret.turretTranslation.getMeasureZ(),
 
