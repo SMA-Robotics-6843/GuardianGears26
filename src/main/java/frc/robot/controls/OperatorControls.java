@@ -1,4 +1,4 @@
-package frc.robot.controls;
+package frc.robot.commands;
 
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.gamepieces.GamePieceProjectile;
