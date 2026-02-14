@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
  * Controls for moving a virtual target pose on the field.
@@ -28,7 +28,7 @@ public class PoseControls {
    * @param controller The controller to bind pose adjustment controls to
    * @param drivetrain The swerve subsystem for updating the field visualization
    */
-  public static void configure(int port, SwerveSubsystem drivetrain) {
+  public static void configure(int port, SwerveDriveSubsystem drivetrain) {
     CommandXboxController controller = new CommandXboxController(port);
 
     // Update the field visualization with initial pose
@@ -115,8 +115,8 @@ public class PoseControls {
    *
    * @param drivetrain The swerve subsystem containing the field
    */
-  private static void updateFieldPose(SwerveSubsystem drivetrain) {
-    drivetrain.getSwerveDrive().field.getObject("targetPose").setPose(targetPose);
+  private static void updateFieldPose(SwerveDriveSubsystem drivetrain) {
+    //drivetrain.getSwerveDrive().posefield.getObject("targetPose").setPose(targetPose);
   }
 
   /**
@@ -153,7 +153,7 @@ public class PoseControls {
    * @param pose       The new target pose
    * @param drivetrain The swerve subsystem for updating the field
    */
-  public static void setTargetPose(Pose2d pose, SwerveSubsystem drivetrain) {
+  public static void setTargetPose(Pose2d pose, SwerveDriveSubsystem drivetrain) {
     targetPose = pose;
     updateFieldPose(drivetrain);
   }

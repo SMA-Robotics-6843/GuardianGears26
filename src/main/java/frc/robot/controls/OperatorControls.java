@@ -2,6 +2,7 @@ package frc.robot.controls;
 
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.gamepieces.GamePieceProjectile;
+import org.ironmaple.simulation.seasonspecific.rebuilt2026.RebuiltFuelOnFly;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -15,13 +16,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ShootOnTheMoveCommand;
 import frc.robot.subsystems.Superstructure;
-import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.util.maplesim.RebuiltFuelOnFly;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 
 public class OperatorControls {
   public static final boolean MACOS_WEIRD_CONTROLLER = true;
 
-  public static void configure(int port, SwerveSubsystem drivetrain, Superstructure superstructure) {
+  public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
     CommandXboxController controller = new CommandXboxController(port);
 
     // if (Robot.isSimulation()) {
