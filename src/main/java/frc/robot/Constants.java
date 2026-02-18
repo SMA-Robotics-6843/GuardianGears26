@@ -83,85 +83,68 @@ public final class Constants {
     public static final double WHEEL_LOCK_TIME = 10; // seconds
 
     public static class FL {
-      public static final int kTurnMotorId = 5;
-      public static final int kDriveMotorId = 6;
-      public static final int kAbsId = 0;
+      public static final int kTurnMotorId = 11;
+      public static final int kDriveMotorId = 12;
+      public static final int kAbsId = 10;
     }
 
     public static class FR {
-      public static final int kTurnMotorId = 9;
-      public static final int kDriveMotorId = 10;
-      public static final int kAbsId = 2;
+      public static final int kTurnMotorId = 21;
+      public static final int kDriveMotorId = 22;
+      public static final int kAbsId = 20;
     }
 
     public static class BL {
-      public static final int kTurnMotorId = 7;
-      public static final int kDriveMotorId = 8;
-      public static final int kAbsId = 1;
+      public static final int kTurnMotorId = 41;
+      public static final int kDriveMotorId = 42;
+      public static final int kAbsId = 40;
     }
 
     public static class BR {
-      public static final int kTurnMotorId = 11;
-      public static final int kDriveMotorId = 12;
-      public static final int kAbsId = 3;
+      public static final int kTurnMotorId = 31;
+      public static final int kDriveMotorId = 32;
+      public static final int kAbsId = 30;
     }
-  }
-
-  public static class AlgaeConstants {
-    public static final int kWristMotorId = 13;
-    public static final int kIntakeMotorId = 14;
-  }
-
-  public static class CoralConstants {
-    public static final int kLeftIndexMotorId = 11;
-    public static final int kRightIndexMotorId = 12;
-
-    public static final int kIndexLaserCANId = 0;
   }
 
   public static class ShooterConstants {
     // 2 Neos, 4in shooter wheels
-    public static final int kLeaderMotorId = 15;
-    public static final int kFollowerMotorId = 16;
+    public static final int kLeaderMotorId = 51;
+    public static final int kFollowerMotorId = 52;
   }
 
   public static class TurretConstants {
     // 1 Neo, 6.875 in diameter, 4:1 gearbox, 10:1 pivot gearing, non-continuous
     // 360 deg
-    public static final int kMotorId = 17;
+    public static final int kMotorId = 57;
+    public static final int kTurret19t = 59;
+    public static final int kturret21t = 60;
   }
 
-  public static class HoodConstants {
-    // 1 Neo, 0-90 degree variability, 50:1 reduction
-    public static final int kMotorId = 19;
-  }
-
-  // Intake subsystem CAN IDs start at 30
   public static class IntakeConstants {
     // SparkFlex controlling the intake flywheel
-    public static final int kPivotMotorId = 30;
-    public static final int kRollerMotorId = 31;
+    public static final int kExtendMotorId = 53;
+    public static final int kIntakeMotorId = 54;
   }
 
   // Hopper subsystem CAN IDs start at 40
   public static class HopperConstants {
-    public static final int kHopperMotorId = 40;
+    public static final int kHopperMotorId = 55;
   }
 
   // Kicker subsystem CAN IDs start at 50
   public static class KickerConstants {
-    public static final int kKickerMotorId = 50;
+    public static final int kKickerMotorId = 56;
   }
   
+  public static class PDHConstants {
+    public static final int kPDHMotorId = 61;
+  }
   
+public static class ClimberConstants {
+  public static final int kClimberMotorId = 58;
 
-
-
-
-
-
-
-
-
+  
+}
 
 }

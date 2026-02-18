@@ -9,24 +9,13 @@ Talon Fx motor IDs:
 41:swerve motor
 42:drive motor
 
-Cancoders:
-the 10 cancoders go with 11 and 12, the 20 cancoders go with 21 and 22 etc...
-10:
-20:
-30:
-40:
-
-Sparkmaxes:
-51:intake spin
-52:intake ex
-
 Pigeon:
 62
 
 FL motor Ids: 
 kTurnMotorId = 11
 kDriveMotorId = 12
-kAbsId = 10 //we are unsure if that is our cancoders or theirs, change soon
+kAbsId = 10 
 
 FR motor Ids:
 kTurnMotorId = 21
@@ -43,34 +32,28 @@ kTurnMotorId = 31
 kDriveMotorId = 32
 kAbsId = 30
 
-Algae motor Ids:
-kWristMotorId = 1 //unused, remove 
-kIntakeMotorId = 2 //unused, remove
+Shooter CAN Ids:
+kLeaderMotorId = 51 //unused as of now
+kFollowerMotorId = 52 //unused as of now
 
-Coral motor Ids:
-kLeftIndexMotorId = 3 //unused, remove
-kRightIndexMotorId = 4 //unused, remove
-kIndexLaserCANId = 5 //unused, remove
+Turret Motor CAN Ids:
+kMotorId = 57 //unused as of now
 
-Shooter Ids:
-kLeaderMotorId = 6 //unused as of now
-kFollowerMotorId = 7 //unused as of now
+Intake CAN Ids:
+kExtendMotorId = 53 //variable changed from kPivotMotorId
+kIntakeMotorId = 54 //variable changed from kRollerMotorId
 
-Turret Motor Ids:
-kMotorId = 8 //unused as of now
-
-Hood motor Ids: //probably remove
-kMotorId = 9 //unused as of now, probably remove
-
-Intake Ids:
-kPivotMotorId = 53
-kRollerMotorId = 54
-
- Hopper CAN Ids:
+ Hopper CANIds:
  kHopperMotorId = 55 //unused as of now
 
  Kicker CAN Ids:
   kKickerMotorId = 56 //unused as of now
 
+PDH:61
+
+Climber motor: 58
+
+Turret Cancoders 19t:59
+Turret cancoders 21t:60
 
 */
