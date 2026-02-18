@@ -39,7 +39,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private static final double INTAKE_SPEED = 1.0;
 
   // ThriftyNova controlling the intake roller
-  private SparkMax rollerSpark = new SparkMax(Constants.IntakeConstants.kRollerMotorId, MotorType.kBrushless);
+  private SparkMax rollerSpark = new SparkMax(Constants.IntakeConstants.kIntakeMotorId, MotorType.kBrushless);
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.OPEN_LOOP)
@@ -76,7 +76,7 @@ public class IntakeSubsystem extends SubsystemBase {
       .withClosedLoopRampRate(Seconds.of(0.1))
       .withOpenLoopRampRate(Seconds.of(0.1));
 
-  private SparkMax pivotMotor = new SparkMax(Constants.IntakeConstants.kPivotMotorId, MotorType.kBrushless);
+  private SparkMax pivotMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
 
   private SmartMotorController intakePivotController = new SparkWrapper(pivotMotor, DCMotor.getNeoVortex(1),
       intakePivotSmartMotorConfig);
