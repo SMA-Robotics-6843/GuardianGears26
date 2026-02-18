@@ -1,0 +1,76 @@
+/*
+Talon Fx motor IDs:
+11:swerve motor
+12:drive motor
+21:swerve motor
+22:drive motor
+31:swerve motor
+32:drive motor
+41:swerve motor
+42:drive motor
+
+Cancoders:
+the 10 cancoders go with 11 and 12, the 20 cancoders go with 21 and 22 etc...
+10:
+20:
+30:
+40:
+
+Sparkmaxes:
+3:intake spin
+16:intake ex
+
+Pigeon:
+62
+
+FL motor Ids: 
+kTurnMotorId = 5
+kDriveMotorId = 6
+kAbsId = 0
+
+FR motor Ids:
+kTurnMotorId = 9
+kDriveMotorId = 10
+kAbsId = 2
+
+BL motor Ids:
+ kTurnMotorId = 7
+ kDriveMotorId = 8
+ kAbsId = 1
+
+ BR motor Ids:
+kTurnMotorId = 11
+kDriveMotorId = 12
+kAbsId = 3
+
+Algae motor Ids:
+kWristMotorId = 13
+kIntakeMotorId = 14
+
+Coral motor Ids:
+kLeftIndexMotorId = 11
+kRightIndexMotorId = 12
+kIndexLaserCANId = 0
+
+Shooter Ids:
+kLeaderMotorId = 15
+kFollowerMotorId = 16
+
+Turret Motor Ids:
+kMotorId = 17
+
+Hood motor Ids:
+kMotorId = 19
+
+Intake Ids:
+kPivotMotorId = 30
+kRollerMotorId = 31
+
+ Hopper CAN Ids:
+ kHopperMotorId = 40
+
+ Kicker CAN Ids:
+  kKickerMotorId = 50
+
+
+*/
