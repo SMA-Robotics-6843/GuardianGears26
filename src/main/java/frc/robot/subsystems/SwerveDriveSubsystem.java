@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import frc.robot.constants.TunerConstants.TunerSwerveDrivetrain;
+import static frc.robot.Constants.DrivetrainConstants.*;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -343,27 +344,19 @@ public class SwerveDriveSubsystem extends TunerSwerveDrivetrain implements Subsy
     }
 
     public Pose2d getPose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPose'");
+        return this.getState().Pose;
     }
 
-    public Object getSwerveDrive() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSwerveDrive'");
+    public Command driveBackwards(double seconds) {
+        return applyRequest(() -> driveRobotCentric.withVelocityX(-1.5)).withTimeout(seconds);
     }
 
-    public Command driveForward() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'driveForward'");
+    public Command driveForward(double seconds) {
+        return applyRequest(() -> driveRobotCentric.withVelocityX(1.5)).withTimeout(seconds);
     }
-
-    public Command driveBackwards() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'driveBackwards'");
-    }
+    
 
     public ChassisSpeeds geRelativeChassisSpeeds() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'geRelativeChassisSpeeds'");
+        return this.getState().Speeds;
     }
 }

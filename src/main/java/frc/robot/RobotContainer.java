@@ -87,7 +87,7 @@ public class RobotContainer {
 
     // Add a simple auto option to have the robot drive forward for 1 second then
     // stop
-    autoChooser.addOption("Drive Forward", drivetrain.driveForward().withTimeout(10));
+    autoChooser.addOption("Drive Forward", drivetrain.driveForward(10));
 
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -104,20 +104,16 @@ public class RobotContainer {
     // Add any auto commands to the NamedCommands here
 
     NamedCommands.registerCommand("driveBackwards",
-        drivetrain.driveBackwards().withTimeout(1)
+        drivetrain.driveBackwards(1)
             .withName("Auto.driveBackwards"));
 
     NamedCommands.registerCommand("driveForwards",
-        drivetrain.driveForward().withTimeout(2)
+        drivetrain.driveForward(2)
             .withName("Auto.driveForwards"));
   }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
-  }
-
-  public SwerveDrive getSwerveDrive() {
-    return (SwerveDrive) drivetrain.getSwerveDrive();
   }
 
   public Pose2d getRobotPose() {
