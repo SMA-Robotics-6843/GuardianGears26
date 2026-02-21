@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -51,10 +51,10 @@ public class ShooterSubsystem extends SubsystemBase {
   // Constants.ShooterConstants.kFollowerMotorId,
   // ThriftyNova.MotorType.NEO);
 
-  private final SparkMax leaderSpark = new SparkMax(Constants.ShooterConstants.kLeaderMotorId,
+  private final SparkFlex leaderSpark = new SparkFlex(Constants.ShooterConstants.kLeaderMotorId,
       MotorType.kBrushless);
 
-  private final SparkMax followerSpark = new SparkMax(Constants.ShooterConstants.kFollowerMotorId,
+  private final SparkFlex followerSpark = new SparkFlex(Constants.ShooterConstants.kFollowerMotorId,
       MotorType.kBrushless);
 
   private final SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
