@@ -117,7 +117,7 @@ public class RobotContainer {
   }
 
   public SwerveDrive getSwerveDrive() {
-    return drivetrain.getSwerveDrive();
+    return (SwerveDrive) drivetrain.getSwerveDrive();
   }
 
   public Pose2d getRobotPose() {

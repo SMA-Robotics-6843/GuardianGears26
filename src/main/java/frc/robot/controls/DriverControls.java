@@ -114,7 +114,7 @@ public class DriverControls {
           new Translation2d(
               superstructure.turret.turretTranslation.getX() * -1,
               superstructure.turret.turretTranslation.getY()),
-          drivetrain.getSwerveDrive().getFieldRelativeSpeed(),
+          drivetrain.getState().Speeds,
           drivetrain.getPose().getRotation().rotateBy(superstructure.getAimRotation3d().toRotation2d()),
           superstructure.turret.turretTranslation.getMeasureZ(),
 
