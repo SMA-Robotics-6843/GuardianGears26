@@ -76,9 +76,9 @@ public class IntakeSubsystem extends SubsystemBase {
       .withClosedLoopRampRate(Seconds.of(0.1))
       .withOpenLoopRampRate(Seconds.of(0.1));
 
-  private SparkMax pivotMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
+  public SparkMax IntakeMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
 
-  private SmartMotorController intakePivotController = new SparkWrapper(pivotMotor, DCMotor.getNeoVortex(1),
+  private SmartMotorController intakePivotController = new SparkWrapper(IntakeMotor, DCMotor.getNeoVortex(1),
       intakePivotSmartMotorConfig);
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
@@ -114,7 +114,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public Command rezero() {
-    return Commands.runOnce(() -> pivotMotor.getEncoder().setPosition(0), this).withName("IntakePivot.Rezero");
+    return Commands.runOnce(() -> IntakeMotor.getEncoder().setPosition(0), this).withName("IntakePivot.Rezero");
   }
 
   /**

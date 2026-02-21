@@ -339,4 +339,6 @@ public class Superstructure extends SubsystemBase {
   public LinearVelocity getTangentialVelocity() {
     return shooter.getTangentialVelocity();
   }
+
+
 }

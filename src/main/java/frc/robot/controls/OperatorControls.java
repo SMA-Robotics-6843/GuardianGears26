@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ShootOnTheMoveCommand;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import static edu.wpi.first.units.Units.Degrees;
 
 public class OperatorControls {
   public static final boolean MACOS_WEIRD_CONTROLLER = true;
@@ -65,10 +66,12 @@ public class OperatorControls {
     controller.start().onTrue(superstructure.rezeroIntakePivotAndTurretCommand().ignoringDisable(true));
 
     controller.rightBumper()
-        .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
+        .whileTrue(superstructure.intakeCommand());
+       // .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
 
-    controller.y().onTrue(superstructure.shootCommand());
-    controller.x().whileTrue(superstructure.stopShootingCommand());
+
+    controller.y().onTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
+    controller.x().whileTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
 
     controller.a().whileTrue(
         superstructure.feedAllCommand()
@@ -82,9 +85,12 @@ public class OperatorControls {
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
     controller.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
 
-    controller.leftBumper().toggleOnTrue(
-        new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
-            .ignoringDisable(true)
-            .withName("OperatorControls.aimCommand"));
+     controller.leftBumper()
+        .whileTrue(superstructure.ejectCommand());
+
+    //controller.leftBumper().toggleOnTrue(
+       // new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
+        //    .ignoringDisable(true)
+         //   .withName("OperatorControls.aimCommand"));
   }
 }
