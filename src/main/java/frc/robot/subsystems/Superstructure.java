@@ -11,6 +11,7 @@ import static edu.wpi.first.units.Units.RPM;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -199,6 +200,7 @@ public class Superstructure extends SubsystemBase {
    * Command to run the intake while held.
    */
   public Command intakeCommand() {
+    DriverStation.reportWarning("We should be roller intaking", false);
     return intake.intakeCommand().withName("Superstructure.intake");
   }
 
@@ -206,6 +208,7 @@ public class Superstructure extends SubsystemBase {
    * Command to eject while held.
    */
   public Command ejectCommand() {
+    DriverStation.reportWarning("We should be roller ejecting", false);
     return intake.ejectCommand().withName("Superstructure.eject");
   }
 
@@ -272,6 +275,7 @@ public class Superstructure extends SubsystemBase {
    * Command to set the intake pivot angle.
    */
   public Command setIntakePivotAngle(Angle angle) {
+    DriverStation.reportWarning("Setting intake pivot to" + angle, false);
     return intake.setPivotAngle(angle).withName("Superstructure.setIntakePivotAngle");
   }
 

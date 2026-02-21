@@ -71,7 +71,7 @@ public class OperatorControls {
 
 
     controller.y().onTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
-    controller.x().whileTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
+    controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
 
     controller.a().whileTrue(
         superstructure.feedAllCommand()
