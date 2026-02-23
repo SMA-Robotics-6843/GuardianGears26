@@ -95,7 +95,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Set up controllers
-    DriverControls.configure(ControllerConstants.kDriverControllerPort, drivetrain, superstructure);
+   DriverControls.configure(ControllerConstants.kDriverControllerPort, drivetrain, superstructure);
    OperatorControls.configure(ControllerConstants.kOperatorControllerPort, drivetrain, superstructure);
    PoseControls.configure(ControllerConstants.kPoseControllerPort, drivetrain);
   }

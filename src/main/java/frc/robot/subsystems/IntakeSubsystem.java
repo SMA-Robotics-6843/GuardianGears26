@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import static edu.wpi.first.units.Units.Amps;
@@ -63,18 +64,19 @@ public class IntakeSubsystem extends SubsystemBase {
   // 5:1, 5:1, 60/18 reduction
   private SmartMotorControllerConfig intakePivotSmartMotorConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
-      .withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
+      .withClosedLoopController(3.25, 0, .6, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
+      //.withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
+      .withFeedforward(new ArmFeedforward(0,.0799, 8.25, 0.4))
       .withTelemetry("IntakePivotMotor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 / 18.0)))
       // .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 /
       // 18.0, 42)))
       .withMotorInverted(false)
       .withIdleMode(MotorMode.COAST)
-      .withSoftLimit(Degrees.of(0), Degrees.of(150))
-      .withStatorCurrentLimit(Amps.of(10))
-      .withClosedLoopRampRate(Seconds.of(0.1))
-      .withOpenLoopRampRate(Seconds.of(0.1));
+      .withSoftLimit(Degrees.of(-10), Degrees.of(150))
+      .withStatorCurrentLimit(Amps.of(30))
+      .withClosedLoopRampRate(Seconds.of(0.1));
+   
 
   public SparkMax IntakeMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
 
@@ -82,8 +84,8 @@ public class IntakeSubsystem extends SubsystemBase {
       intakePivotSmartMotorConfig);
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
-      .withSoftLimits(Degrees.of(0), Degrees.of(150))
-      .withHardLimit(Degrees.of(0), Degrees.of(155))
+      .withSoftLimits(Degrees.of(-10), Degrees.of(150))
+      .withHardLimit(Degrees.of(-15), Degrees.of(155))
       .withStartingPosition(Degrees.of(0))
       .withLength(Feet.of(1))
       .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
