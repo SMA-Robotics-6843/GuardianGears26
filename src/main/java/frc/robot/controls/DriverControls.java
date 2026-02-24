@@ -25,6 +25,8 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
 
 public class DriverControls {
 
+  
+
   private static Pose2d getTargetPose() {
     Pose2d hubPose = new Pose2d(
         Meter.of(11.902),
@@ -103,6 +105,7 @@ public class DriverControls {
           .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
 
     }*/
+    
   }
 
   public static Command fireFuel(SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
@@ -133,6 +136,72 @@ public class DriverControls {
               pose3ds.toArray(Pose3d[]::new)));
 
       arena.addGamePieceProjectile(fuel);
+      
+
+      
+    
     });
-  }
-}
+  } driverController.leftStick().whileTrue(drivetrain.applyRequest(() -> brake));
+
+                // driverController.leftBumper().whileTrue(drivetrain.applyRequest(
+                //                 () -> point.withModuleDirection(
+                //                                 new Rotation2d(-driverController.getLeftY(),
+                //                                                 -driverController.getLeftX()))));
+
+                driverController.leftBumper().whileTrue(drivetrain.applyRequest(
+                        () -> driveRobotCentric
+                                .withVelocityX(-driverController.getLeftY() * MaxSpeed)
+                                .withVelocityY(-driverController.getLeftX() * MaxSpeed)
+                                .withRotationalRate(-driverController.getRightX() * MaxAngularRate)));
+
+                driverController.rightBumper().whileTrue(drivetrain.applyRequest(
+                        () -> driveFieldCentric
+                                .withVelocityX((-driverController.getLeftY() * MaxSpeed) / 5)
+                                .withVelocityY((-driverController.getLeftX() * MaxSpeed) / 5)
+                                .withRotationalRate(-driverController.getRightX() * MaxAngularRate)));
+
+                driverController.rightBumper().and(driverController.leftBumper()).whileTrue(drivetrain.applyRequest(
+                        () -> driveRobotCentric
+                                .withVelocityX((-driverController.getLeftY() * MaxSpeed) / 5)
+                                .withVelocityY((-driverController.getLeftX() * MaxSpeed) / 5)
+                                .withRotationalRate(-driverController.getRightX() * MaxAngularRate)));
+
+                // reset the field-centric heading on right stick press
+                driverController.rightStick().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+                driverController.a()
+                        .and(driverController.leftTrigger().negate())
+                        .and(driverController.rightTrigger().negate())
+                        .whileTrue(windClimber);
+                driverController.y()
+                        .and(driverController.leftTrigger().negate())
+                        .and(driverController.rightTrigger().negate())
+                        .whileTrue(unwindClimber);
+
+                driverController.leftTrigger().and(driverController.rightTrigger().negate())
+                        .whileTrue(Commands.defer(
+                                () -> AutoBuilder.pathfindToPose(
+                                        vision.decidePoseAlignmentLeft(),
+                                        constraints, 0),
+                                Set.of(drivetrain)));
+
+                driverController.rightTrigger().and(driverController.leftTrigger().negate())
+                        .whileTrue(Commands.defer(
+                                () -> AutoBuilder.pathfindToPose(
+                                        vision.decidePoseAlignmentRight(),
+                                        constraints, 0),
+                                Set.of(drivetrain)));
+
+                // TODO: Run sysid
+                // Run SysId routines when holding back/start and X/Y.
+                // Note that each routine should be run exactly once in a single log.
+                driverController.back().and(driverController.y())
+                        .whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+                driverController.back().and(driverController.x())
+                        .whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+                driverController.start().and(driverController.y())
+                        .whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+                driverController.start().and(driverController.x())
+                        .whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+};

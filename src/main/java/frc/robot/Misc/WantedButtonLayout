@@ -1,0 +1,23 @@
+OperatorControls
+
+start = 
+right bumper = Shoot
+Y button = 
+X button = 
+A button = 
+B button = 
+Dpad Up = move turret forward facing
+Dpad Left = move turret left facing
+Dpad right =  move turret right facing
+Left Bumper = Spin Intake
+
+DriverControls
+
+RightBumper = 
+B button = 
+X button =
+Y button = slow mode
+start =
+back/select =
+LeftBummper = toggle of field centric and robot centric 
+

@@ -40,8 +40,8 @@ Turret Motor CAN Ids:
 kMotorId = 57 //unused as of now
 
 Intake CAN Ids:
-kExtendMotorId = 53 //variable changed from kPivotMotorId
-kIntakeMotorId = 54 //variable changed from kRollerMotorId
+kExtendMotorId = 54 //variable changed from kPivotMotorId
+kIntakeMotorId = 53 //variable changed from kRollerMotorId
 
  Hopper CANIds:
  kHopperMotorId = 55 //unused as of now

@@ -1,0 +1,21 @@
+OperatorControls
+start = set intake to zero  and turret command
+right bumper = Intake Command
+Y button = set intake angle 115
+X button = set Intake angle 20
+A button = feed Command
+B button = Back Feed Command
+Dpad Up = turret set forward 
+Dpad Left = turret set left
+Dpad right = turret set right
+Left Bumper = ejectCommand
+
+DriverControls
+RightBumper = Aim getTargetPose
+B button = centerModulesCommand
+X button = lock drive train once
+Y button = zero gyro
+start = angle robot
+back/select = drivd motor
+LeftBummper =  feed all
+
