@@ -30,6 +30,7 @@ public class Superstructure extends SubsystemBase {
   public final IntakeSubsystem intake;
   public final HopperSubsystem hopper;
   public final KickerSubsystem kicker;
+  public final IntakePivotSubsystem intakePivot;
 
   // Tolerance for "at setpoint" checks
   private static final AngularVelocity SHOOTER_TOLERANCE = RPM.of(100);
@@ -50,13 +51,14 @@ public class Superstructure extends SubsystemBase {
   private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value;
 
   public Superstructure(ShooterSubsystem shooter, TurretSubsystem turret, HoodSubsystem hood, IntakeSubsystem intake,
-      HopperSubsystem hopper, KickerSubsystem kicker) {
+      HopperSubsystem hopper, KickerSubsystem kicker, IntakePivotSubsystem intakePivot) {
     this.shooter = shooter;
     this.turret = turret;
     this.hood = hood;
     this.intake = intake;
     this.hopper = hopper;
     this.kicker = kicker;
+    this.intakePivot = intakePivot;
 
     // Create triggers for checking if mechanisms are at their targets
     this.isShooterAtSpeed = new Trigger(
@@ -248,7 +250,7 @@ public class Superstructure extends SubsystemBase {
   public Command backFeedAllCommand() {
     return Commands.parallel(
         hopper.backFeedCommand().asProxy(),
-        intake.backFeedAndRollCommand().asProxy()).withName("Superstructure.backFeedAll");
+        intake.ejectCommand().asProxy()).withName("Superstructure.backFeedAll");
   }
 
   // public Command intakeBounceCommand() {
@@ -266,18 +268,18 @@ public class Superstructure extends SubsystemBase {
     return Commands.parallel(
         hopper.stopCommand().asProxy(),
         kicker.stopCommand().asProxy(),
-        intake.deployAndRollCommand().asProxy()).withName("Superstructure.stopFeedingAll");
+        intake.intakeCommand().asProxy()).withName("Superstructure.stopFeedingAll");
   }
 
   /**
    * Command to set the intake pivot angle.
    */
   public Command setIntakePivotAngle(Angle angle) {
-    return intake.setPivotAngle(angle).withName("Superstructure.setIntakePivotAngle");
+    return intakePivot.setPivotAngle(angle).withName("Superstructure.setIntakePivotAngle");
   }
 
   public Command setIntakeDeployAndRoll() {
-    return intake.deployAndRollCommand().withName("Superstructure.setIntakeDeployAndRoll");
+    return intake.intakeCommand().withName("Superstructure.setIntakeDeployAndRoll");
   }
 
   /**
@@ -299,7 +301,7 @@ public class Superstructure extends SubsystemBase {
   public Command rezeroIntakePivotAndTurretCommand() {
     return Commands.parallel(
         turret.rezero().withName("Superstructure.rezeroTurret"),
-        intake.rezero().withName("Superstructure.rezeroIntakePivot"))
+        intakePivot.rezero().withName("Superstructure.rezeroIntakePivot"))
         .withName("Superstructure.rezeroIntakePivotAndTurret");
   }
 

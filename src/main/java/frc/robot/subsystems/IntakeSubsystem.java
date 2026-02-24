@@ -45,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.OPEN_LOOP)
       .withTelemetry("IntakeRollerMotor", TelemetryVerbosity.HIGH)
-      .withGearing(new MechanismGearing(GearBox.fromReductionStages(1))) // Direct drive, adjust if geared
+      .withGearing(new MechanismGearing(GearBox.fromReductionStages(3))) // Direct drive, adjust if geared
       .withMotorInverted(true)
       .withIdleMode(MotorMode.COAST)
       .withStatorCurrentLimit(Amps.of(40));
@@ -61,37 +61,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private FlyWheel intake = new FlyWheel(intakeConfig);
 
-  // 5:1, 5:1, 60/18 reduction
-  private SmartMotorControllerConfig intakePivotSmartMotorConfig = new SmartMotorControllerConfig(this)
-      .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(3.25, 0, .6, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
-      //.withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
-      .withFeedforward(new ArmFeedforward(0,.0799, 8.25, 0.4))
-      .withTelemetry("IntakePivotMotor", TelemetryVerbosity.HIGH)
-      .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 / 18.0)))
-      // .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 /
-      // 18.0, 42)))
-      .withMotorInverted(false)
-      .withIdleMode(MotorMode.COAST)
-      .withSoftLimit(Degrees.of(-10), Degrees.of(150))
-      .withStatorCurrentLimit(Amps.of(30))
-      .withClosedLoopRampRate(Seconds.of(0.1));
-   
-
-  public SparkMax IntakeMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
-
-  private SmartMotorController intakePivotController = new SparkWrapper(IntakeMotor, DCMotor.getNEO(1),
-      intakePivotSmartMotorConfig);
-
-  private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
-      .withSoftLimits(Degrees.of(-10), Degrees.of(150))
-      .withHardLimit(Degrees.of(-15), Degrees.of(155))
-      .withStartingPosition(Degrees.of(0))
-      .withLength(Feet.of(1))
-      .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
-      .withTelemetry("IntakePivot", TelemetryVerbosity.HIGH);
-
-  private Arm intakePivot = new Arm(intakePivotConfig);
 
   public IntakeSubsystem() {
     // pivotMotor.factoryReset();
@@ -111,63 +80,16 @@ public class IntakeSubsystem extends SubsystemBase {
     return intake.set(-INTAKE_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Intake.Eject");
   }
 
-  public Command setPivotAngle(Angle angle) {
-    return intakePivot.setAngle(angle).withName("IntakePivot.SetAngle");
-  }
 
-  public Command rezero() {
-    return Commands.runOnce(() -> IntakeMotor.getEncoder().setPosition(0), this).withName("IntakePivot.Rezero");
-  }
 
-  /**
-   * Command to deploy intake and run roller while held.
-   * Stops roller when released.
-   */
-  public Command deployAndRollCommand() {
-    return Commands.run(() -> {
-      setIntakeDeployed();
-      smc.setDutyCycle(INTAKE_SPEED);
-    }, this).finallyDo(() -> {
-      smc.setDutyCycle(0);
-      setIntakeHold();
-    }).withName("Intake.DeployAndRoll");
-  }
-
-  public Command backFeedAndRollCommand() {
-    return Commands.run(() -> {
-      setIntakeDeployed();
-      // smc.setDutyCycle(-INTAKE_SPEED);
-    }, this).finallyDo(() -> {
-      smc.setDutyCycle(0);
-      setIntakeHold();
-    }).withName("Intake.BackFeedAndRoll");
-  }
-
-  private void setIntakeStow() {
-    intakePivotController.setPosition(Degrees.of(0));
-  }
-
-  private void setIntakeFeed() {
-    intakePivotController.setPosition(Degrees.of(59));
-  }
-
-  private void setIntakeHold() {
-    intakePivotController.setPosition(Degrees.of(115));
-  }
-
-  private void setIntakeDeployed() {
-    intakePivotController.setPosition(Degrees.of(148));
-  }
 
   @Override
   public void periodic() {
     intake.updateTelemetry();
-    intakePivot.updateTelemetry();
   }
 
   @Override
   public void simulationPeriodic() {
     intake.simIterate();
-    intakePivot.simIterate();
   }
 }
