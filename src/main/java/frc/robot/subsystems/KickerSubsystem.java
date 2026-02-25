@@ -35,7 +35,7 @@ public class KickerSubsystem extends SubsystemBase {
 
   // Nova motor controller with NEO motor
  
-  private SparkMax kickeSparkMax = new SparkMax(0, MotorType.kBrushless);
+  private SparkMax kickeSparkMax = new SparkMax(56, MotorType.kBrushless);
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.OPEN_LOOP)
