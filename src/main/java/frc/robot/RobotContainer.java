@@ -33,6 +33,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import yams.mechanisms.swerve.SwerveDrive;
 import frc.robot.constants.TunerConstants;
 
@@ -45,6 +46,7 @@ public class RobotContainer {
   private final HopperSubsystem hopper = new HopperSubsystem();
   private final KickerSubsystem kicker = new KickerSubsystem();
   private final HoodSubsystem hood = new HoodSubsystem();
+  private final VisionSubsystem vision = new VisionSubsystem();
 
   private final Superstructure superstructure = new Superstructure(shooter, turret, hood, intake, hopper, kicker);
 
@@ -95,7 +97,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Set up controllers
-    DriverControls.configure(ControllerConstants.kDriverControllerPort, drivetrain, superstructure);
+    DriverControls.configure(ControllerConstants.kDriverControllerPort, drivetrain, superstructure, vision);
    OperatorControls.configure(ControllerConstants.kOperatorControllerPort, drivetrain, superstructure);
    PoseControls.configure(ControllerConstants.kPoseControllerPort, drivetrain);
   }

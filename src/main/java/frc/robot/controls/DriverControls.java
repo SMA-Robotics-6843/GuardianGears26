@@ -6,26 +6,36 @@ import org.ironmaple.simulation.seasonspecific.rebuilt2026.RebuiltFuelOnFly;
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+
 import static edu.wpi.first.units.Units.Meter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Robot;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.SwerveDriveSubsystem;
-//import swervelib.SwerveInputStream;
+import frc.robot.subsystems.VisionSubsystem;
 
+import static frc.robot.Constants.DrivetrainConstants.*;
+//import swervelib.SwerveInputStream;
+import java.util.Set;
 public class DriverControls {
 
-  
+private static PathConstraints constraints = new PathConstraints(
+                        3.0, 4.0, Units.degreesToRadians(540), Units.degreesToRadians(720));
+
 
   private static Pose2d getTargetPose() {
     Pose2d hubPose = new Pose2d(
@@ -33,20 +43,74 @@ public class DriverControls {
         Meter.of(4.031),
         Rotation2d.kZero);
 
-    Logger.recordOutput("DriverControls/TargetHubPose", hubPose);
+    Logger.recordOutput("controller/TargetHubPose", hubPose);
 
     return hubPose;
   }
 
-  public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
+  public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure, VisionSubsystem vision) {
     CommandXboxController controller = new CommandXboxController(port);
 
     var driveRequest = new SwerveRequest.FieldCentric();
   
     drivetrain.setControl(driveRequest.withVelocityX(-controller.getLeftY() * DrivetrainConstants.MaxSpeed)
                                   .withVelocityY(-controller.getLeftX() * DrivetrainConstants.MaxSpeed)
-                                  .withRotationalRate(-controller.getRightX() * DrivetrainConstants.MaxAngularRate));
+                                        .withRotationalRate(-controller.getRightX() * DrivetrainConstants.MaxAngularRate));
+ controller.leftStick().whileTrue(drivetrain.applyRequest(() -> brake));
 
+                // driverController.leftBumper().whileTrue(drivetrain.applyRequest(
+                //                 () -> point.withModuleDirection(
+                //                                 new Rotation2d(-driverController.getLeftY(),
+                //                                                 -driverController.getLeftX()))));
+
+                controller.leftBumper().whileTrue(drivetrain.applyRequest(
+                        () -> driveRobotCentric
+                                .withVelocityX(-controller.getLeftY() * MaxSpeed)
+                                .withVelocityY(-controller.getLeftX() * MaxSpeed)
+                                .withRotationalRate(-controller.getRightX() * MaxAngularRate)));
+
+                controller.rightBumper().whileTrue(drivetrain.applyRequest(
+                        () -> driveFieldCentric
+                                .withVelocityX((-controller.getLeftY() * MaxSpeed) / 5)
+                                .withVelocityY((-controller.getLeftX() * MaxSpeed) / 5)
+                                .withRotationalRate(-controller.getRightX() * MaxAngularRate)));
+
+                controller.rightBumper().and(controller.leftBumper()).whileTrue(drivetrain.applyRequest(
+                        () -> driveRobotCentric
+                                .withVelocityX((-controller.getLeftY() * MaxSpeed) / 5)
+                                .withVelocityY((-controller.getLeftX() * MaxSpeed) / 5)
+                                .withRotationalRate(-controller.getRightX() * MaxAngularRate)));
+
+                // reset the field-centric heading on right stick press
+                controller.rightStick().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+
+
+                controller.leftTrigger().and(controller.rightTrigger().negate())
+                        .whileTrue(Commands.defer(
+                                () -> AutoBuilder.pathfindToPose(
+                                        vision.decidePoseAlignmentLeft(),
+                                        constraints, 0),
+                                Set.of(drivetrain)));
+
+                controller.rightTrigger().and(controller.leftTrigger().negate())
+                        .whileTrue(Commands.defer(
+                                () -> AutoBuilder.pathfindToPose(
+                                        vision.decidePoseAlignmentRight(),
+                                        constraints, 0),
+                                Set.of(drivetrain)));
+
+                // TODO: Run sysid
+                // Run SysId routines when holding back/start and X/Y.
+                // Note that each routine should be run exactly once in a single log.
+                controller.back().and(controller.y())
+                        .whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+                controller.back().and(controller.x())
+                        .whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+                controller.start().and(controller.y())
+                        .whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+                controller.start().and(controller.x())
+                        .whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
     // controller.rightBumper().whileTrue(Commands.run(
     // () -> {
@@ -106,7 +170,7 @@ public class DriverControls {
 
     }*/
     
-  }
+  } 
 
   public static Command fireFuel(SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
     return Commands.runOnce(() -> {
@@ -136,72 +200,8 @@ public class DriverControls {
               pose3ds.toArray(Pose3d[]::new)));
 
       arena.addGamePieceProjectile(fuel);
-      
+    });};
 
-      
     
-    });
-  } driverController.leftStick().whileTrue(drivetrain.applyRequest(() -> brake));
-
-                // driverController.leftBumper().whileTrue(drivetrain.applyRequest(
-                //                 () -> point.withModuleDirection(
-                //                                 new Rotation2d(-driverController.getLeftY(),
-                //                                                 -driverController.getLeftX()))));
-
-                driverController.leftBumper().whileTrue(drivetrain.applyRequest(
-                        () -> driveRobotCentric
-                                .withVelocityX(-driverController.getLeftY() * MaxSpeed)
-                                .withVelocityY(-driverController.getLeftX() * MaxSpeed)
-                                .withRotationalRate(-driverController.getRightX() * MaxAngularRate)));
-
-                driverController.rightBumper().whileTrue(drivetrain.applyRequest(
-                        () -> driveFieldCentric
-                                .withVelocityX((-driverController.getLeftY() * MaxSpeed) / 5)
-                                .withVelocityY((-driverController.getLeftX() * MaxSpeed) / 5)
-                                .withRotationalRate(-driverController.getRightX() * MaxAngularRate)));
-
-                driverController.rightBumper().and(driverController.leftBumper()).whileTrue(drivetrain.applyRequest(
-                        () -> driveRobotCentric
-                                .withVelocityX((-driverController.getLeftY() * MaxSpeed) / 5)
-                                .withVelocityY((-driverController.getLeftX() * MaxSpeed) / 5)
-                                .withRotationalRate(-driverController.getRightX() * MaxAngularRate)));
-
-                // reset the field-centric heading on right stick press
-                driverController.rightStick().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-
-                driverController.a()
-                        .and(driverController.leftTrigger().negate())
-                        .and(driverController.rightTrigger().negate())
-                        .whileTrue(windClimber);
-                driverController.y()
-                        .and(driverController.leftTrigger().negate())
-                        .and(driverController.rightTrigger().negate())
-                        .whileTrue(unwindClimber);
-
-                driverController.leftTrigger().and(driverController.rightTrigger().negate())
-                        .whileTrue(Commands.defer(
-                                () -> AutoBuilder.pathfindToPose(
-                                        vision.decidePoseAlignmentLeft(),
-                                        constraints, 0),
-                                Set.of(drivetrain)));
-
-                driverController.rightTrigger().and(driverController.leftTrigger().negate())
-                        .whileTrue(Commands.defer(
-                                () -> AutoBuilder.pathfindToPose(
-                                        vision.decidePoseAlignmentRight(),
-                                        constraints, 0),
-                                Set.of(drivetrain)));
-
-                // TODO: Run sysid
-                // Run SysId routines when holding back/start and X/Y.
-                // Note that each routine should be run exactly once in a single log.
-                driverController.back().and(driverController.y())
-                        .whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-                driverController.back().and(driverController.x())
-                        .whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-                driverController.start().and(driverController.y())
-                        .whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-                driverController.start().and(driverController.x())
-                        .whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
-};
+  };
+ 
