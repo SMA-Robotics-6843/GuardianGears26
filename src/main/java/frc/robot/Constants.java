@@ -151,8 +151,12 @@ public final class Constants {
   
 public static class ClimberConstants {
   public static final int kClimberMotorId = 58;
-
   
+}
+
+public static class CancoderConstants {
+  public static final int kCancoder19t = 59;
+  public static final int kCancoder21t = 60;
 }
 
   public static class VisionConstants {

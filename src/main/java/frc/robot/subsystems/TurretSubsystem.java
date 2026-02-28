@@ -3,7 +3,11 @@ package frc.robot.subsystems;
 import java.lang.System.Logger;
 import java.util.function.Supplier;
 
+import javax.print.attribute.standard.RequestingUserName;
 
+import org.ejml.equation.Variable;
+
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
@@ -22,10 +26,12 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.units.measure.Angle;
+import static edu.wpi.first.units.Units.Rotations;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Main;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.MechanismPositionConfig;
@@ -38,11 +44,16 @@ import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
+import yams.units.EasyCRT;
+import yams.units.EasyCRTConfig;
+import static frc.robot.Constants.CancoderConstants.*;
 
 public class TurretSubsystem extends SubsystemBase {
 
   private final double MAX_ONE_DIR_FOV = 90; // degrees
   public final Translation3d turretTranslation = new Translation3d(-0.205, 0.0, 0.375);
+  private final CANcoder m_cancoder1Id = new CANcoder(kCancoder19t);
+  private final CANcoder m_cancoder2Id = new CANcoder(kCancoder21t);
 
   // 1 Neo, 6.875 in diameter, 4:1 gearbox, 10:1 pivot gearing, non-continuous
   // 360 deg
@@ -108,6 +119,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public Command rezero() {
+    EasyCRT easyCrtSolver = new EasyCRT(easyCRT);
     return Commands.runOnce(() -> spark.getEncoder().setPosition(0), this).withName("Turret.Rezero");
   }
 
@@ -128,4 +140,36 @@ public class TurretSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     turret.simIterate();
   }
-}
+Supplier<Angle>encoder1Supplier = () ->{
+  return
+  m_cancoder1Id.getAbsolutePosition().getValue();
+};
+ 
+Supplier<Angle>encoder2Supplier = () ->{
+  return
+  m_cancoder2Id.getAbsolutePosition().getValue();
+};
+
+ public EasyCRTConfig easyCRT = 
+     new EasyCRTConfig (encoder1Supplier, encoder2Supplier) 
+        .withCommonDriveGear(
+            /* commonRatio (mech:drive) */ 12.0,
+            /* driveGearTeeth */ 50,
+            /* encoder1Pinion */ 19,
+            /* encoder2Pinion */ 23)
+        .withAbsoluteEncoderOffsets(Rotations.of(0.0), Rotations.of(0.0)) // set after mechanical zero
+        .withMechanismRange(Rotations.of(-1.0), Rotations.of(2.0)) // -360 deg to +720 deg
+        .withMatchTolerance(Rotations.of(0.06)) // ~1.08 deg at encoder2 for the example ratio
+        .withAbsoluteEncoderInversions(false, false)
+        .withCrtGearRecommendationConstraints(
+            /* coverageMargin */ 1.2,
+            /* minTeeth */ 15,
+            /* maxTeeth */ 45,
+            /* maxIterations */ 30);
+
+// you can inspect:
+// Create the solver:
+
+     
+} 
+
