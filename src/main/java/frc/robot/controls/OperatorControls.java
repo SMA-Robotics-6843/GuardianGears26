@@ -9,6 +9,9 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.Feet;
 import static edu.wpi.first.units.Units.FeetPerSecond;
+
+import java.lang.ModuleLayer.Controller;
+
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -71,8 +74,12 @@ public class OperatorControls {
 
 
     //controller.y().onTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
-    controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
-    controller.y().onTrue(superstructure.shootCommand());
+    //controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
+    controller.y().whileTrue(superstructure.shootCommand());
+    controller.x().onTrue(superstructure.stopAllCommand());
+    controller.leftBumper().whileTrue(superstructure.kickerFeedCommand());
+    controller.rightBumper().whileTrue(superstructure.kickerStopCommand());
+
 
     controller.a().whileTrue(
         superstructure.feedAllCommand()
@@ -86,8 +93,8 @@ public class OperatorControls {
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
     controller.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
 
-     controller.leftBumper()
-        .whileTrue(superstructure.ejectCommand());
+     //controller.leftBumper()
+        //.whileTrue(superstructure.ejectCommand());
 
     //controller.leftBumper().toggleOnTrue(
        // new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
