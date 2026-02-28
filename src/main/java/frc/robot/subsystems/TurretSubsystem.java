@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import java.lang.System.Logger;
 import java.util.function.Supplier;
 
+import org.ejml.equation.Variable;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -38,6 +39,8 @@ import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
+import yams.units.EasyCRT;
+import yams.units.EasyCRTConfig;
 
 public class TurretSubsystem extends SubsystemBase {
 
@@ -127,5 +130,7 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     turret.simIterate();
-  }
-}
+  }}
+
+
+// Suppose: mechanism : drive gear = 12:1, drive gear = 50T, encoders use 19T and 23T pinions.*/

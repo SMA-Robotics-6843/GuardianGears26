@@ -70,8 +70,9 @@ public class OperatorControls {
        // .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
 
 
-    controller.y().onTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
+    //controller.y().onTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
     controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
+    controller.y().onTrue(superstructure.shootCommand());
 
     controller.a().whileTrue(
         superstructure.feedAllCommand()
