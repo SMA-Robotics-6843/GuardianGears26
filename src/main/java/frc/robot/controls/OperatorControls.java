@@ -21,12 +21,16 @@ import frc.robot.commands.ShootOnTheMoveCommand;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import static edu.wpi.first.units.Units.Degrees;
+import frc.robot.Constants;
+import frc.robot.Constants.ControllerConstants;
+
+
 
 public class OperatorControls {
   public static final boolean MACOS_WEIRD_CONTROLLER = true;
 
   public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
-    CommandXboxController controller = new CommandXboxController(port);
+    CommandXboxController controller = new CommandXboxController(ControllerConstants.kOperatorControllerPort);
 
 
     // if (Robot.isSimulation()) {
@@ -68,9 +72,10 @@ public class OperatorControls {
 
     // REAL CONTROLS
     controller.start().onTrue(superstructure.rezeroIntakePivotAndTurretCommand().ignoringDisable(true));
+    controller.rightBumper().and(controller.leftBumper()).whileTrue(superstructure.kickerFeedCommand());
 
-    controller.rightBumper()
-        .whileTrue(superstructure.intakeCommand());
+    //controller.rightBumper()
+       // .whileTrue(superstructure.intakeCommand());
        // .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
 
     controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
@@ -79,7 +84,7 @@ public class OperatorControls {
     controller.y().and(controller.x()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
 
     //controller.leftBumper().whileTrue(superstructure.kickerFeedCommand());
-    controller.rightBumper().whileTrue(superstructure.kickerStopCommand());
+   // controller.rightBumper().whileTrue(superstructure.kickerStopCommand());
 
 
     controller.a().whileTrue(
