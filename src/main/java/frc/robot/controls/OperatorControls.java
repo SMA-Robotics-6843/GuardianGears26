@@ -28,6 +28,7 @@ public class OperatorControls {
   public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure) {
     CommandXboxController controller = new CommandXboxController(port);
 
+
     // if (Robot.isSimulation()) {
     // controller.leftBumper().whileTrue(aimCommand(drivetrain, superstructure));
     // controller.start().whileTrue(fireAlgae(drivetrain, superstructure));
@@ -72,12 +73,12 @@ public class OperatorControls {
         .whileTrue(superstructure.intakeCommand());
        // .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
 
+    controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
+    controller.y().toggleOnTrue(superstructure.shootCommand());
+    controller.y().and(controller.leftBumper()).whileFalse(superstructure.stopAllCommand());
+    controller.y().and(controller.x()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
 
-    //controller.y().onTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
-    //controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
-    controller.y().whileTrue(superstructure.shootCommand());
-    controller.x().onTrue(superstructure.stopAllCommand());
-    controller.leftBumper().whileTrue(superstructure.kickerFeedCommand());
+    //controller.leftBumper().whileTrue(superstructure.kickerFeedCommand());
     controller.rightBumper().whileTrue(superstructure.kickerStopCommand());
 
 
