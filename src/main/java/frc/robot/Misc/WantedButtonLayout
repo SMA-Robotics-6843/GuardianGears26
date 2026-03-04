@@ -2,21 +2,29 @@ OperatorControls
 
 start = 
 right bumper = Shoot
-Y button = 
-X button = 
-A button = 
-B button = 
+left bumper and right bumper = spin shooter down
+Y button = intake down (and spin)
+left bumper and Y = intake up
+X button = reverse all only on hold 
+A button = kicker start command and hopper 
+B button = intake spin 
+left bumper and B = intake stop
+left bumper and A button = kicker and hopper stop command
 Dpad Up = move turret forward facing
 Dpad Left = move turret left facing
 Dpad right =  move turret right facing
-Left Bumper = Spin Intake
+Left Bumper = alternate config
+left Joystick = conrolls turret facing
 
 DriverControls
 
-RightBumper = 
-B button = 
-X button =
-Y button = slow mode
+RightBumper = slow mode
+B button = shoot
+X button = lock wheels
+A button = kicker and hopper start 
+Y button = 
+Dpad up = 
+Dpad down = 
 start =
 back/select =
 LeftBummper = toggle of field centric and robot centric 

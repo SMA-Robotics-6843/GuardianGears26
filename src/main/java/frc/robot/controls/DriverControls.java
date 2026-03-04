@@ -63,6 +63,9 @@ private static PathConstraints constraints = new PathConstraints(
                 //                                 new Rotation2d(-driverController.getLeftY(),
                 //                                                 -driverController.getLeftX()))));
 
+              
+               controller.x().onTrue(superstructure.intakeCommand());
+               controller.y().onTrue(superstructure.ejectCommand());
                 controller.leftBumper().whileTrue(drivetrain.applyRequest(
                         () -> driveRobotCentric
                                 .withVelocityX(-controller.getLeftY() * MaxSpeed)
