@@ -49,8 +49,7 @@ private static PathConstraints constraints = new PathConstraints(
   }
 
   public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure, VisionSubsystem vision) {
-    CommandXboxController controller = new CommandXboxController(port);
-
+    CommandXboxController controller = new CommandXboxController(ControllerConstants.kDriverControllerPort);
     var driveRequest = new SwerveRequest.FieldCentric();
   
     drivetrain.setControl(driveRequest.withVelocityX(-controller.getLeftY() * DrivetrainConstants.MaxSpeed)
