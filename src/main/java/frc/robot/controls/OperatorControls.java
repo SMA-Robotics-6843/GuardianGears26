@@ -83,7 +83,11 @@ public class OperatorControls {
     controller.a().onTrue(superstructure.hopperFeedCommand());
 
     controller.b().onTrue(superstructure.intakeCommand());
+<<<<<<< HEAD
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
+=======
+    //controller.b().and(controller.leftBumper()).whileTrue(null);
+>>>>>>> ff760d358a74f2e1eae094121d989e2fe2c7db3b
 
     controller.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
