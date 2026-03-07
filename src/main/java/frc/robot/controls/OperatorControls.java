@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ShootOnTheMoveCommand;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import static edu.wpi.first.units.Units.Degrees;
@@ -69,25 +70,18 @@ public class OperatorControls {
     controller.start().onTrue(superstructure.rezeroIntakePivotAndTurretCommand().ignoringDisable(true));
 
     controller.rightBumper()
-        .whileTrue(superstructure.intakeCommand());
+        .whileTrue(superstructure.shootCommand());
        // .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
+    controller.rightBumper().and(controller.leftBumper()).whileTrue(superstructure.stopShootingCommand());
 
+    controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
+    controller.y().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
 
-    //controller.y().onTrue(superstructure.setIntakePivotAngle(Degrees.of(115)));
-    //controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(20)));
-    controller.y().whileTrue(superstructure.shootCommand());
-    controller.x().onTrue(superstructure.stopAllCommand());
-    controller.leftBumper().whileTrue(superstructure.kickerFeedCommand());
-    controller.rightBumper().whileTrue(superstructure.kickerStopCommand());
+    controller.a().onTrue(superstructure.kickerFeedCommand());
+    controller.a().onTrue(superstructure.hopperFeedCommand());
 
-
-    controller.a().whileTrue(
-        superstructure.feedAllCommand()
-            .finallyDo(() -> superstructure.stopFeedingAllCommand().schedule()));
-
-    controller.b().whileTrue(
-        superstructure.backFeedAllCommand()
-            .finallyDo(() -> superstructure.stopFeedingAllCommand().schedule()));
+    controller.b().onTrue(superstructure.intakeCommand());
+    controller.b().and(controller.leftBumper()).whileTrue();
 
     controller.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
@@ -97,8 +91,8 @@ public class OperatorControls {
         //.whileTrue(superstructure.ejectCommand());
 
     //controller.leftBumper().toggleOnTrue(
-       // new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
-        //    .ignoringDisable(true)
-         //   .withName("OperatorControls.aimCommand"));
+        //new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
+           // .ignoringDisable(true)
+           // .withName("OperatorControls.aimCommand"));
   }
 }

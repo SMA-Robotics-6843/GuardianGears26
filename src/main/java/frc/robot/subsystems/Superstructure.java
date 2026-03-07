@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * Superstructure coordinates the shooter, turret, hood, and intake subsystems
@@ -30,7 +31,6 @@ public class Superstructure extends SubsystemBase {
   public final IntakeSubsystem intake;
   public final HopperSubsystem hopper;
   public final KickerSubsystem kicker;
-
   // Tolerance for "at setpoint" checks
   private static final AngularVelocity SHOOTER_TOLERANCE = RPM.of(100);
   private static final Angle TURRET_TOLERANCE = Degrees.of(1);
@@ -297,6 +297,8 @@ public class Superstructure extends SubsystemBase {
   public Command stopShootingCommand() {
     return shooter.stop().withName("Superstructure.stopShooting");
   }
+
+  
 
   // Re-zero intake pivot if needed
   public Command rezeroIntakePivotAndTurretCommand() {

@@ -61,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private FlyWheel intake = new FlyWheel(intakeConfig);
 
   // 5:1, 5:1, 60/18 reduction
-  private SmartMotorControllerConfig intakePivotSmartMotorConfig = new SmartMotorControllerConfig(this)
+  private  SmartMotorControllerConfig intakePivotSmartMotorConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
       .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
       .withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
@@ -76,7 +76,7 @@ public class IntakeSubsystem extends SubsystemBase {
       .withClosedLoopRampRate(Seconds.of(0.1))
       .withOpenLoopRampRate(Seconds.of(0.1));
 
-  public SparkMax IntakeMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
+  public static SparkMax IntakeMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
 
   private SmartMotorController intakePivotController = new SparkWrapper(IntakeMotor, DCMotor.getNEO(1),
       intakePivotSmartMotorConfig);
@@ -142,7 +142,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   private void setIntakeStow() {
-    intakePivotController.setPosition(Degrees.of(0));
+   intakePivotController.setPosition(Degrees.of(0));
   }
 
   private void setIntakeFeed() {
