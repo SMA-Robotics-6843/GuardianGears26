@@ -85,7 +85,7 @@ public final class Constants {
     public static class FL {
       public static final int kTurnMotorId = 11;
       public static final int kDriveMotorId = 12;
-      public static final int kAbsId = 10;
+      public static final int kAbsId = 10;;;;
     }
 
     public static class FR {
