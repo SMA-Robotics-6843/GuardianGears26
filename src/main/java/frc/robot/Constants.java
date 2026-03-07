@@ -146,5 +146,22 @@ public static class ClimberConstants {
 
   
 }
+  public static class VisionConstants {
+        //Change later to a better camera name
+        public static final Transform3d kRobotToCam = new Transform3d(
+                // Offsets: 0m forward, 0.3m to the left, 0.41m up
+                new Translation3d(0, 0.3, 0.41),
+                // Camera is mounted facing -30 degrees or -.52 radians to the right
+                new Rotation3d(0, 0, -.52));
 
+        // The layout of the AprilTags on the field
+        public static final AprilTagFieldLayout kTagLayout = AprilTagFieldLayout
+                .loadField(AprilTagFields.kDefaultField);
+
+        // The standard deviations of our vision estimated poses, which affect
+        // correction rate
+        // (Fake values. Experiment and determine estimation noise on an actual robot.)
+        public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
+        public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+    }
 }

@@ -194,4 +194,8 @@ public class RobotContainer {
 
     System.out.println("Alliance changed to: " + alliance);
   }
+
+  public SwerveDriveSubsystem getDrivetrain() {
+    return drivetrain;
+  }
 }
