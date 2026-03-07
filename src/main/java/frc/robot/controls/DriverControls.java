@@ -73,7 +73,7 @@ private static PathConstraints constraints = new PathConstraints(
                 //                                 new Rotation2d(-driverController.getLeftY(),
                 //                                                 -driverController.getLeftX()))));
 
-<<<<<<< HEAD
+
                 /*controller.leftBumper().whileTrue(drivetrain.applyRequest(
 =======
               
