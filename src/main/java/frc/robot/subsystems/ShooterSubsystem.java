@@ -64,7 +64,7 @@ public class ShooterSubsystem extends SubsystemBase {
       .withFeedforward(new SimpleMotorFeedforward(0.191, 0.11858, 0.0))
       .withTelemetry("ShooterMotor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
-      .withMotorInverted(false)
+      .withMotorInverted(true)
       .withIdleMode(MotorMode.COAST)
       .withStatorCurrentLimit(Amps.of(40));
 
@@ -103,7 +103,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public Command spinUp() {
-    return setSpeed(RPM.of(-4500));
+    return setSpeed(RPM.of(4500));
 
     // return setSpeed(RotationsPerSecond.of(50));
 
