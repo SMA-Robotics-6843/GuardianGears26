@@ -21,6 +21,8 @@ import frc.robot.commands.ShootOnTheMoveCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+
+import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
 
 public class OperatorControls {
@@ -75,13 +77,13 @@ public class OperatorControls {
     controller.rightBumper().and(controller.leftBumper()).whileTrue(superstructure.stopShootingCommand());
 
     controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
-    controller.y().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
+    controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(125)));
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
 
     controller.b().onTrue(superstructure.intakeCommand());
-    controller.b().and(controller.leftBumper()).whileTrue(null);
+    controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
 
     controller.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
