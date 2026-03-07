@@ -57,7 +57,8 @@ kLeaderMotorId = 15
 kFollowerMotorId = 16
 
 Turret Motor Ids:
-kMotorId = 17
+kMotorId21 = 17
+kMotorId = 19
 
 Hood motor Ids:
 kMotorId = 19

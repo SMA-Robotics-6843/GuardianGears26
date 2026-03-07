@@ -51,10 +51,21 @@ private static PathConstraints constraints = new PathConstraints(
   public static void configure(int port, SwerveDriveSubsystem drivetrain, Superstructure superstructure, VisionSubsystem vision) {
     CommandXboxController controller = new CommandXboxController(ControllerConstants.kDriverControllerPort);
     var driveRequest = new SwerveRequest.FieldCentric();
+         // Note that X is defined as forward according to WPILib convention,
+          // and Y is defined as to the left according to WPILib convention.
+                drivetrain.setDefaultCommand(
+                // Drivetrain will execute this command periodically
+                drivetrain.applyRequest(() -> driveFieldCentric
+                // Drive forward with negative Y (forward)
+                .withVelocityX(-controller.getLeftY() * MaxSpeed)
+                // Drive left with negative X (left)
+                .withVelocityY(-controller.getLeftX() * MaxSpeed)
+                // Drive counterclockwise with negative X (left)
+                                .withRotationalRate(
+                                                -controller.getRightX() * MaxAngularRate)));
+
   
-    drivetrain.setControl(driveRequest.withVelocityX(-controller.getLeftY() * DrivetrainConstants.MaxSpeed)
-                                  .withVelocityY(-controller.getLeftX() * DrivetrainConstants.MaxSpeed)
-                                        .withRotationalRate(-controller.getRightX() * DrivetrainConstants.MaxAngularRate));
+   
  controller.leftStick().whileTrue(drivetrain.applyRequest(() -> brake));
 
                 // driverController.leftBumper().whileTrue(drivetrain.applyRequest(
@@ -62,11 +73,12 @@ private static PathConstraints constraints = new PathConstraints(
                 //                                 new Rotation2d(-driverController.getLeftY(),
                 //                                                 -driverController.getLeftX()))));
 
-                controller.leftBumper().whileTrue(drivetrain.applyRequest(
+                /*controller.leftBumper().whileTrue(drivetrain.applyRequest(
                         () -> driveRobotCentric
                                 .withVelocityX(-controller.getLeftY() * MaxSpeed)
                                 .withVelocityY(-controller.getLeftX() * MaxSpeed)
-                                .withRotationalRate(-controller.getRightX() * MaxAngularRate)));
+                                .withRotationalRate(-controller.getRightX() * MaxAngularRate))); */
+                
 
                 controller.rightBumper().whileTrue(drivetrain.applyRequest(
                         () -> driveFieldCentric
