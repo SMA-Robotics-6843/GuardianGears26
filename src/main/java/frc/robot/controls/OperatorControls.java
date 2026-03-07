@@ -82,7 +82,7 @@ public class OperatorControls {
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
 
-    controller.b().onTrue(superstructure.intakeCommand());
+    controller.b().onTrue(superstructure.intakeCommand());// fix me im not workinging help 
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
    
     controller.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
