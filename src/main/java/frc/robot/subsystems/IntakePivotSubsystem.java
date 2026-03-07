@@ -61,9 +61,9 @@ public class IntakePivotSubsystem extends SubsystemBase {
       intakePivotSmartMotorConfig);
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
-      .withSoftLimits(Degrees.of(-30), Degrees.of(150))
-      .withHardLimit(Degrees.of(-40), Degrees.of(155))
-      .withStartingPosition(Degrees.of(-20))
+      .withSoftLimits(Degrees.of(-40), Degrees.of(150))
+      .withHardLimit(Degrees.of(-50), Degrees.of(155))
+      .withStartingPosition(Degrees.of(125))
       .withLength(Feet.of(1))
       .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
       .withTelemetry("IntakePivot", TelemetryVerbosity.HIGH);
@@ -80,7 +80,7 @@ public class IntakePivotSubsystem extends SubsystemBase {
   }
 
   public Command rezero() {
-    return Commands.runOnce(() -> IntakeMotor.getEncoder().setPosition(0), this).withName("IntakePivot.Rezero");
+    return Commands.runOnce(() -> IntakeMotor.getEncoder().setPosition(125), this).withName("IntakePivot.Rezero");
   }
 
   /**
