@@ -48,9 +48,15 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class VisionSubsystem extends SubsystemBase {
     private final PhotonCamera camera1;
     private final PhotonCamera camera2;
+    private final PhotonCamera camera3;
+    private final PhotonCamera camera4;
     private final PhotonPoseEstimator photonEstimator;
     private PhotonPipelineResult result1;
     private PhotonPipelineResult result2;
+    private PhotonPipelineResult result3;
+    private PhotonPipelineResult result4;
+
+
     private int targetId;
     private List<PhotonTrackedTarget> targets;
     private List<Integer> excludedIds = List.of(4, 5, 14, 15, 12, 13, 1, 2, 3, 16);
@@ -60,6 +66,8 @@ public class VisionSubsystem extends SubsystemBase {
     public VisionSubsystem() {
         camera1 = new PhotonCamera("Arducam");
         camera2 = new PhotonCamera("Arducam2");
+        camera3 = new PhotonCamera("Arducam3");
+        camera4 = new PhotonCamera("Arducam4");
 
         photonEstimator = new PhotonPoseEstimator(kTagLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, kRobotToCam);
         photonEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
@@ -69,7 +77,9 @@ public class VisionSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         result1 = camera1.getLatestResult();
-        result2 = camera1.getLatestResult();
+        result2 = camera2.getLatestResult();
+        result3 = camera3.getLatestResult();
+        result4 = camera4.getLatestResult();
         targets = result1.getTargets();
 
         if (!targets.isEmpty()) {
