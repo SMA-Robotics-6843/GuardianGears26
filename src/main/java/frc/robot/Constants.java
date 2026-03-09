@@ -176,4 +176,18 @@ public static class ClimberConstants {
         public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
     }
 
-}
+
+ public static final class CameraConstants{
+    public static final double kReefCameraToRobotX = 0.24765;
+    public static final double kReefCameraToRobotY = 0;
+    public static final double kReefCameraToRobotZ = 0.305;
+
+    public static final double kReefCameraToRobotPitch = 0;
+    public static final double kReefCameraToRobotYaw = 0;
+    public static final double kReefCameraToRobotRoll = 0;
+
+    public static final Transform3d kReefCameraToRobotTransform = new Transform3d(
+      new Translation3d(-kReefCameraToRobotX, kReefCameraToRobotY, kReefCameraToRobotZ),
+      new Rotation3d(kReefCameraToRobotPitch, kReefCameraToRobotYaw, kReefCameraToRobotRoll));
+    }};
+     
