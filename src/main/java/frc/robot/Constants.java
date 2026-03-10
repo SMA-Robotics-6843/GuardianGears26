@@ -153,41 +153,4 @@ public static class ClimberConstants {
   public static final int kClimberMotorId = 58;
 
   
-}
-
-  public static class VisionConstants {
-        public static final String kCameraName = "Arducam";
-        public static final String kCameraName2 = "Arducam2";
-        //Change later to a better camera name
-        public static final Transform3d kRobotToCam = new Transform3d(
-                // Offsets: 0m forward, 0.3m to the left, 0.41m up
-                new Translation3d(0, 0.3, 0.41),
-                // Camera is mounted facing -30 degrees or -.52 radians to the right
-                new Rotation3d(0, 0, -.52));
-
-        // The layout of the AprilTags on the field
-        public static final AprilTagFieldLayout kTagLayout = AprilTagFieldLayout
-                .loadField(AprilTagFields.kDefaultField);
-
-        // The standard deviations of our vision estimated poses, which affect
-        // correction rate
-        // (Fake values. Experiment and determine estimation noise on an actual robot.)
-        public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-        public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
-    }
-
-
- public static final class CameraConstants{
-    public static final double kReefCameraToRobotX = 0.24765;
-    public static final double kReefCameraToRobotY = 0;
-    public static final double kReefCameraToRobotZ = 0.305;
-
-    public static final double kReefCameraToRobotPitch = 0;
-    public static final double kReefCameraToRobotYaw = 0;
-    public static final double kReefCameraToRobotRoll = 0;
-
-    public static final Transform3d kReefCameraToRobotTransform = new Transform3d(
-      new Translation3d(-kReefCameraToRobotX, kReefCameraToRobotY, kReefCameraToRobotZ),
-      new Rotation3d(kReefCameraToRobotPitch, kReefCameraToRobotYaw, kReefCameraToRobotRoll));
-    }};
-     
+}};
