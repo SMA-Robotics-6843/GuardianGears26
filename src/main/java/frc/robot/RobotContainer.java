@@ -46,7 +46,7 @@ public class RobotContainer {
   private final HopperSubsystem hopper = new HopperSubsystem();
   private final KickerSubsystem kicker = new KickerSubsystem();
   private final HoodSubsystem hood = new HoodSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem(null, null); //change from null
+  private final VisionSubsystem vision = new VisionSubsystem();
 
   private final Superstructure superstructure = new Superstructure(shooter, turret, hood, intake, hopper, kicker);
 
