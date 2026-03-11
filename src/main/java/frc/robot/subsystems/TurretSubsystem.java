@@ -167,9 +167,9 @@ Supplier<Angle>encoder2Supplier = () ->{
             /* maxTeeth */ 45,
             /* maxIterations */ 30);
 
-// you can inspect:
-// Create the solver:
 
+// Create the solver:
+ EasyCRT easyCrtSolver = new EasyCRT(easyCRT);
      
 } 
 
