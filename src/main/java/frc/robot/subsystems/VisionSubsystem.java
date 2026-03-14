@@ -33,7 +33,8 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.Constants.VisionConstants;
+
+import static frc.robot.Constants.VisionConstants.*;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class VisionSubsystem extends SubsystemBase {
     private PhotonPipelineResult result1;
     private PhotonPipelineResult result2;
     private PhotonPipelineResult result3;
-    private PhotonPipelineResult result
+    private PhotonPipelineResult result4;
     private int targetId;
     private List<PhotonTrackedTarget> targets;
     private List<Integer> excludedIds = List.of(4, 5, 14, 15, 12, 13, 1, 2, 3, 16);
@@ -77,7 +78,9 @@ public class VisionSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         result1 = camera1.getLatestResult();
-        result2 = camera1.getLatestResult();
+        result2 = camera1.getLatestResult(); //unsure that should be camera one insteade of camera 2
+        result3 = camera1.getLatestResult();
+        result4 = camera1.getLatestResult();
         targets = result1.getTargets();
 
         if (!targets.isEmpty()) {

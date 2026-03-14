@@ -151,11 +151,17 @@ public final class Constants {
   
 public static class ClimberConstants {
   public static final int kClimberMotorId = 58;
+}
 
   
 public static class VisionConstants {
         public static final String kCameraName = "Arducam";
         public static final String kCameraName2 = "Arducam2";
+        public static final String kCameraName3 = "Arducam3";
+        public static final String kCameraName4 = "Arducam4";
+
+
+
         //Change later to a better camera name
         public static final Transform3d kRobotToCam = new Transform3d(
                 // Offsets: 0m forward, 0.3m to the left, 0.41m up
@@ -171,5 +177,7 @@ public static class VisionConstants {
         // correction rate
         // (Fake values. Experiment and determine estimation noise on an actual robot.)
         public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-        public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);}
-      }};
+        public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+      }
+  };
+    
