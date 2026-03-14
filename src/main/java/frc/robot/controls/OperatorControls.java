@@ -76,11 +76,13 @@ public class OperatorControls {
        // .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
     controller.rightBumper().and(controller.leftBumper()).whileTrue(superstructure.stopShootingCommand());
 
-    controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
-    controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(125)));
-
+    controller.y().onTrue(superstructure.setIntakeDutyCycle(.3));
+    controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakeDutyCycle(-.3));
+    controller.x().onTrue(superstructure.setIntakePivotAngle(Degrees.of(90)));
+    controller.x().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(0)));
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
+    controller.a().and(controller.leftBumper()).whileTrue(superstructure.setIntakeDutyCycle(0));
 
     controller.b().onTrue(superstructure.intakeCommand());// fix me im not workinging help 
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());

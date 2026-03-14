@@ -275,8 +275,11 @@ public class Superstructure extends SubsystemBase {
    * Command to set the intake pivot angle.
    */
   public Command setIntakePivotAngle(Angle angle) {
-    DriverStation.reportWarning("Setting intake pivot to" + angle, false);
     return intake.setPivotAngle(angle).withName("Superstructure.setIntakePivotAngle");
+  }
+
+  public Command setIntakeDutyCycle(double duty){
+    return intake.setDutyCycle(duty);
   }
 
   public Command setIntakeDeployAndRoll() {

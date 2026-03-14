@@ -4,6 +4,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
@@ -63,18 +64,15 @@ public class IntakeSubsystem extends SubsystemBase {
   // 5:1, 5:1, 60/18 reduction
   private  SmartMotorControllerConfig intakePivotSmartMotorConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
-      .withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
+      .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(90), DegreesPerSecondPerSecond.of(45))
+      .withFeedforward(new ArmFeedforward(0, 0, 0))
       .withTelemetry("IntakePivotMotor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 / 18.0)))
-      // .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 /
-      // 18.0, 42)))
       .withMotorInverted(false)
-      .withIdleMode(MotorMode.COAST)
-      .withSoftLimit(Degrees.of(0), Degrees.of(150))
-      .withStatorCurrentLimit(Amps.of(10))
-      .withClosedLoopRampRate(Seconds.of(0.1))
-      .withOpenLoopRampRate(Seconds.of(0.1));
+      .withIdleMode(MotorMode.BRAKE)
+      .withStatorCurrentLimit(Amps.of(40))
+      .withClosedLoopRampRate(Seconds.of(0.25))
+      .withOpenLoopRampRate(Seconds.of(0.25));
 
   public static SparkMax IntakeMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
 
@@ -82,8 +80,8 @@ public class IntakeSubsystem extends SubsystemBase {
       intakePivotSmartMotorConfig);
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
-      .withSoftLimits(Degrees.of(0), Degrees.of(150))
-      .withHardLimit(Degrees.of(0), Degrees.of(155))
+      .withSoftLimits(Degrees.of(-10), Degrees.of(150))
+      .withHardLimit(Degrees.of(-20), Degrees.of(155))
       .withStartingPosition(Degrees.of(0))
       .withLength(Feet.of(1))
       .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
@@ -110,8 +108,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public Command setPivotAngle(Angle angle) {
-    return intakePivot.setAngle(angle).withName("IntakePivot.SetAngle");
+    return intakePivot.runTo(angle, Degrees.of(2)).withName("IntakePivot.SetAngle");
+    //return intakePivot.setAngle(angle).withName("IntakePivot.SetAngle");
   }
+
+  public Command setDutyCycle(double dutycycle) { return intakePivot.set(dutycycle);}
 
   public Command rezero() {
     return Commands.runOnce(() -> IntakeMotor.getEncoder().setPosition(0), this).withName("IntakePivot.Rezero");
