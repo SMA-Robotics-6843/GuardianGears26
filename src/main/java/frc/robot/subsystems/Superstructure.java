@@ -283,6 +283,14 @@ public class Superstructure extends SubsystemBase {
     return intake.deployAndRollCommand().withName("Superstructure.setIntakeDeployAndRoll");
   }
 
+  public Command intakeArmDownSuperstructure () {
+   return intake.intakeArmDown();
+  };
+
+  public Command intakeArmUpSuperstructure () {
+   return intake.intakeArmUp();
+  };
+
   /**
    * Command to shoot - spins up shooter.
    */

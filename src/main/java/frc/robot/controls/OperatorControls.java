@@ -76,8 +76,10 @@ public class OperatorControls {
        // .whileTrue(superstructure.setIntakeDeployAndRoll().withName("OperatorControls.intakeDeployed"));
     controller.rightBumper().and(controller.leftBumper()).whileTrue(superstructure.stopShootingCommand());
 
-    controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
-    controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(125)));
+    // controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
+    // controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(23)));
+    controller.y().whileTrue(superstructure.intakeArmUpSuperstructure());
+    controller.a().whileTrue(superstructure.intakeArmDownSuperstructure());
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
@@ -88,6 +90,7 @@ public class OperatorControls {
     controller.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
     controller.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
+
 
      //controller.leftBumper()
         //.whileTrue(superstructure.ejectCommand());

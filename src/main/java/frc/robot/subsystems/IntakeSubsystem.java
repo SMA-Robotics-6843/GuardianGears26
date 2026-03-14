@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import static edu.wpi.first.units.Units.Amps;
@@ -15,6 +16,7 @@ import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -71,10 +73,10 @@ public class IntakeSubsystem extends SubsystemBase {
       // 18.0, 42)))
       .withMotorInverted(false)
       .withIdleMode(MotorMode.COAST)
-      .withSoftLimit(Degrees.of(0), Degrees.of(150))
-      .withStatorCurrentLimit(Amps.of(10))
-      .withClosedLoopRampRate(Seconds.of(0.1))
-      .withOpenLoopRampRate(Seconds.of(0.1));
+      //.withSoftLimit(Degrees.of(0), Degrees.of(150))
+      .withStatorCurrentLimit(Amps.of(30));
+      //.withClosedLoopRampRate(Seconds.of(0.1))
+      //.withOpenLoopRampRate(Seconds.of(0.1));
 
   public static SparkMax IntakeMotor = new SparkMax(Constants.IntakeConstants.kExtendMotorId, MotorType.kBrushless);
 
@@ -82,8 +84,8 @@ public class IntakeSubsystem extends SubsystemBase {
       intakePivotSmartMotorConfig);
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
-      .withSoftLimits(Degrees.of(0), Degrees.of(150))
-      .withHardLimit(Degrees.of(0), Degrees.of(155))
+      //.withSoftLimits(Degrees.of(0), Degrees.of(150))
+      //.withHardLimit(Degrees.of(0), Degrees.of(155))
       .withStartingPosition(Degrees.of(0))
       .withLength(Feet.of(1))
       .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
@@ -91,7 +93,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private Arm intakePivot = new Arm(intakePivotConfig);
 
+  private PIDController pivotPID = new PIDController(25, 0, 0);
+
   public IntakeSubsystem() {
+    this.setDefaultCommand(run(()->IntakeMotor.set(0)));
     // pivotMotor.factoryReset();
   }
 
@@ -112,6 +117,20 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command setPivotAngle(Angle angle) {
     return intakePivot.setAngle(angle).withName("IntakePivot.SetAngle");
   }
+
+  public Command intakeArmDown () {
+   return run(()->{
+      IntakeMotor.set(0.3);
+      System.out.println ("intake down works");
+    });
+  };
+
+  public Command intakeArmUp () {
+   return run(()->{
+      IntakeMotor.set(-0.3);
+      System.out.println ("intake up works");
+    });
+  };
 
   public Command rezero() {
     return Commands.runOnce(() -> IntakeMotor.getEncoder().setPosition(0), this).withName("IntakePivot.Rezero");
@@ -154,13 +173,16 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   private void setIntakeDeployed() {
-    intakePivotController.setPosition(Degrees.of(148));
+    System.out.println("setIntakeDeployed");
+    //intakePivotController.setPosition(Degrees.of(23));
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getEncoder().getPosition(), .39));
   }
 
   @Override
   public void periodic() {
     intake.updateTelemetry();
     intakePivot.updateTelemetry();
+    SmartDashboard.putNumber("intakePivot Encpder", IntakeMotor.getEncoder().getPosition());
   }
 
   @Override
