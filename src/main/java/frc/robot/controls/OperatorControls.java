@@ -91,15 +91,16 @@ public class OperatorControls {
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
     controller.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
 
-    controller.rightTrigger().onTrue(RPMVAR + 200);
-    controller.leftTrigger().onTrue(RPMVAR - 200);
-
-     //controller.leftBumper()
-        //.whileTrue(superstructure.ejectCommand());
-
-      controller.leftBumper().toggleOnTrue(
-        new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
-            .ignoringDisable(true)
-            .withName("OperatorControls.aimCommand"));
-  }
-}
+    controller.rightTrigger().onTrue(null);
+    
+        
+             //controller.leftBumper()
+                //.whileTrue(superstructure.ejectCommand());
+        
+              controller.leftBumper().toggleOnTrue(
+                new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
+                    .ignoringDisable(true)
+                    .withName("OperatorControls.aimCommand"));
+          }
+        
+         }

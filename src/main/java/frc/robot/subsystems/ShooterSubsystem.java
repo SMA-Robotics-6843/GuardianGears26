@@ -41,6 +41,8 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.epilogue.Logged;
 
+
+
 public class ShooterSubsystem extends SubsystemBase {
   // 2 Neos, 4in shooter wheels
   // private final ThriftyNova leaderNova = new ThriftyNova(
@@ -104,6 +106,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public Command spinUp() {
     return setSpeed(RPM.of(Constants.RPMVAR));
+  public Command RPMIncrease() {
+    return setSpeed(RPM.of(Constats.RPMVAR2)); // i dont know how to make a command
+  }
+
+  }
+
 
     // return setSpeed(RotationsPerSecond.of(50));
 
@@ -119,7 +127,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // return shooter.set(0.5);
     // return shooter.setSpeed(RotationsPerSecond.of(500));
-  }
+  
 
   public Command stop() {
     return setSpeed(RPM.of(0));
@@ -166,4 +174,6 @@ public class ShooterSubsystem extends SubsystemBase {
     return MetersPerSecond.of(getSpeed().in(RadiansPerSecond)
         * wheelRadius().in(Meters));
   }
-}
+public class RPMIncrease {
+
+}}

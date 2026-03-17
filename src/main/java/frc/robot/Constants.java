@@ -22,6 +22,7 @@ import frc.robot.constants.TunerConstants;
 
 public final class Constants {
   public static double RPMVAR = 4500;
+  public static double RPMVAR2 = RPMVAR;
 
   public static class DrivetrainConstants {
     // desired top speed
