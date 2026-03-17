@@ -72,7 +72,7 @@ public class IntakeSubsystem extends SubsystemBase {
       // .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 /
       // 18.0, 42)))
       .withMotorInverted(false)
-      .withIdleMode(MotorMode.COAST)
+      .withIdleMode(MotorMode.BRAKE)
       //.withSoftLimit(Degrees.of(0), Degrees.of(150))
       .withStatorCurrentLimit(Amps.of(30));
       //.withClosedLoopRampRate(Seconds.of(0.1))

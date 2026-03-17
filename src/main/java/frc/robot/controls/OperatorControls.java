@@ -78,8 +78,8 @@ public class OperatorControls {
 
     // controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
     // controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(23)));
-    controller.y().whileTrue(superstructure.intakeArmUpSuperstructure());
-    controller.a().whileTrue(superstructure.intakeArmDownSuperstructure());
+    controller.y().and(controller.leftBumper()).whileTrue(superstructure.intakeArmUpSuperstructure());
+    controller.y().whileTrue(superstructure.intakeArmDownSuperstructure());
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
