@@ -104,13 +104,11 @@ public class ShooterSubsystem extends SubsystemBase {
     return shooter.setSpeed(speedSupplier);
   }
 
-  public Command spinUp() {
-    return setSpeed(RPM.of(Constants.RPMVAR));
-  public Command RPMIncrease() {
-    return setSpeed(RPM.of(Constats.RPMVAR2)); // i dont know how to make a command
+  public Command spinup() {
+    return setSpeed(RPM.of(Constants.RPMVAR2)); // i dont know how to make a command
   }
 
-  }
+  
 
 
     // return setSpeed(RotationsPerSecond.of(50));
