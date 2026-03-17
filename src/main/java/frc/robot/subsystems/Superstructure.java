@@ -47,7 +47,7 @@ public class Superstructure extends SubsystemBase {
   private Angle targetHoodAngle = Degrees.of(0);
 
   // Default aim point is red hub
-  private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value;
+  private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value; //switch to when needed
 
   public Superstructure(ShooterSubsystem shooter, TurretSubsystem turret, HoodSubsystem hood, IntakeSubsystem intake,
       HopperSubsystem hopper, KickerSubsystem kicker) {

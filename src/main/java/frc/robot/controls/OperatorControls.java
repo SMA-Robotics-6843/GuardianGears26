@@ -25,6 +25,8 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
 import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
 
+import frc.robot.Constants;
+
 public class OperatorControls {
   public static final boolean MACOS_WEIRD_CONTROLLER = true;
 
@@ -81,7 +83,7 @@ public class OperatorControls {
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
-
+    
     controller.b().onTrue(superstructure.intakeCommand());// fix me im not workinging help 
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
    
@@ -89,12 +91,15 @@ public class OperatorControls {
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
     controller.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
 
+    controller.rightTrigger().onTrue(RPMVAR + 200);
+    controller.leftTrigger().onTrue(RPMVAR - 200);
+
      //controller.leftBumper()
         //.whileTrue(superstructure.ejectCommand());
 
-    //controller.leftBumper().toggleOnTrue(
-        //new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
-           // .ignoringDisable(true)
-           // .withName("OperatorControls.aimCommand"));
+      controller.leftBumper().toggleOnTrue(
+        new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
+            .ignoringDisable(true)
+            .withName("OperatorControls.aimCommand"));
   }
 }

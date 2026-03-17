@@ -32,6 +32,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import frc.robot.constants.TunerConstants.TunerSwerveDrivetrain;
 import static frc.robot.Constants.DrivetrainConstants.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -359,4 +361,6 @@ public class SwerveDriveSubsystem extends TunerSwerveDrivetrain implements Subsy
     public ChassisSpeeds geRelativeChassisSpeeds() {
         return this.getState().Speeds;
     }
+
+
 }
