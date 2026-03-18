@@ -83,6 +83,7 @@ public class OperatorControls {
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
+    controller.a().and(controller.leftBumper()).onTrue(superstructure.backFeedAllCommand()); 
 
     controller.b().onTrue(superstructure.intakeCommand());// fix me im not workinging help 
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
