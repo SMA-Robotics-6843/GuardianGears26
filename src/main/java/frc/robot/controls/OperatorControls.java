@@ -83,7 +83,9 @@ public class OperatorControls {
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
     controller.a().onTrue(superstructure.hopperFeedCommand());
-    controller.a().and(controller.b()).onTrue(superstructure.backFeedAllCommand());
+    
+    controller.a().and(controller.b()).whileTrue(superstructure.backFeedAllCommand());
+    
     controller.b().onTrue(superstructure.intakeCommand());// fix me im not workinging help 
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
    
@@ -91,17 +93,21 @@ public class OperatorControls {
     controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
     controller.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
 
-    controller.rightTrigger().onTrue(null);
+    controller.rightTrigger().onTrue(superstructure.upShootSpeedCommand());
+    controller.leftTrigger().onTrue(superstructure.downShootSpeedCommand());
+  
+        
+        
+        
+            
+                 //controller.leftBumper()
+                    //.whileTrue(superstructure.ejectCommand());
+            
+                  controller.leftBumper().toggleOnTrue(
+                    new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
+                        .ignoringDisable(true)
+                        .withName("OperatorControls.aimCommand"));
+              }
     
-    
-        
-             //controller.leftBumper()
-                //.whileTrue(superstructure.ejectCommand());
-        
-              controller.leftBumper().toggleOnTrue(
-                new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
-                    .ignoringDisable(true)
-                    .withName("OperatorControls.aimCommand"));
-          }
-        
+       
          }
