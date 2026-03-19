@@ -12,6 +12,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,7 +48,7 @@ public class Superstructure extends SubsystemBase {
   private Angle targetHoodAngle = Degrees.of(0);
 
   // Default aim point is red hub
-  private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value;
+  private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value; //switch to when needed
 
   public Superstructure(ShooterSubsystem shooter, TurretSubsystem turret, HoodSubsystem hood, IntakeSubsystem intake,
       HopperSubsystem hopper, KickerSubsystem kicker) {
@@ -296,7 +297,16 @@ public class Superstructure extends SubsystemBase {
    */
   public Command shootCommand() {
     // return shooter.sysId().withName("Superstructure.shoot");
-    return shooter.spinUp().withName("Superstructure.shoot");
+    return shooter.spinup().withName("Superstructure.shoot");
+  }
+
+  public Command upShootSpeedCommand() {
+    // return shooter.sysId().withName("Superstructure.shoot");
+    return shooter.upShootSpeedCommand();
+  }
+  
+  public Command downShootSpeedCommand() {
+    return shooter.downShootSpeedCommand();
   }
 
   /**
@@ -330,7 +340,6 @@ public class Superstructure extends SubsystemBase {
         + Math.round(targetHoodAngle.in(Degrees)) + ")";
 
     String readyOut = "R:" + isReadyToShoot.getAsBoolean();
-
     // System.out.println(shooterOut + " " + turretOut + " " + hoodOut + " " +
     // readyOut);
   }

@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.commands.ShootOnTheMoveCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -64,9 +65,7 @@ private static PathConstraints constraints = new PathConstraints(
                                 .withRotationalRate(
                                                 -controller.getRightX() * MaxAngularRate)));
 
-  
-   
- controller.leftStick().whileTrue(drivetrain.applyRequest(() -> brake));
+
 
                 // driverController.leftBumper().whileTrue(drivetrain.applyRequest(
                 //                 () -> point.withModuleDirection(

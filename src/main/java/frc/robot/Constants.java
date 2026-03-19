@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.constants.TunerConstants;
 
 public final class Constants {
+  public static double RPMVAR = 4500;
+  public static double RPMVAR2 = RPMVAR;
 
   public static class DrivetrainConstants {
     // desired top speed
@@ -51,7 +53,7 @@ public final class Constants {
 
     BLUE_HUB(new Translation3d(4.5974, 4.034536, 1.5748)),
     BLUE_OUTPOST(new Translation3d(0.75, 0.75, 0)),
-    BLUE_FAR_SIDE(new Translation3d(0.75, 7.25, 0));
+    BLUE_FAR_SIDE(new Translation3d(1.96, 3.94, 0));
 
     public final Translation3d value;
 

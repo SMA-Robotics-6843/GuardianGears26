@@ -25,6 +25,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import yams.gearing.GearBox;
@@ -38,8 +39,11 @@ import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.epilogue.Logged;
+
+
 
 public class ShooterSubsystem extends SubsystemBase {
   // 2 Neos, 4in shooter wheels
@@ -79,6 +83,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final FlyWheel shooter = new FlyWheel(shooterConfig);
 
+  private int shooterSpeed = 3500;
+
+
   public ShooterSubsystem() {
     // leaderNova.factoryReset();
     // followerNova.factoryReset();
@@ -102,26 +109,47 @@ public class ShooterSubsystem extends SubsystemBase {
     return shooter.setSpeed(speedSupplier);
   }
 
-  public Command spinUp() {
-    return setSpeed(RPM.of(4500));
-
-    // return setSpeed(RotationsPerSecond.of(50));
-
-    // return run(() -> {
-    // // followerNova.follow(leaderNova.getID());
-    // // followerNova.setInverted(true);
-
-    // // leaderNova.setPercent(SHOOTER_SPEED);
-    // // followerNova.setPercent(SHOOTER_SPEED);
-
-    // // followerNova.setPercent(0.5);
-    // });
-
-    // return shooter.set(0.5);
-    // return shooter.setSpeed(RotationsPerSecond.of(500));
+  public Command spinup() {
+    return setSpeed(RPM.of(shooterSpeed)); // i dont know how to make a command
   }
 
-  public Command stop() {
+  public Command upShootSpeedCommand() {
+    return runOnce(() -> {
+      shooterSpeed = shooterSpeed + 200;
+     }
+    );
+  }
+  
+  public Command downShootSpeedCommand() {
+    return runOnce(() -> {
+      shooterSpeed = shooterSpeed - 200;
+     }
+    );
+  }
+            
+      
+          // return setSpeed(RotationsPerSecond.of(50));
+      
+          // return run(() -> {
+          // // followerNova.follow(leaderNova.getID());
+          // // followerNova.setInverted(true);
+      
+          // // leaderNova.setPercent(SHOOTER_SPEED);
+          // // followerNova.setPercent(SHOOTER_SPEED);
+      
+          // // followerNova.setPercent(0.5);
+          // });
+      
+          // return shooter.set(0.5);
+          // return shooter.setSpeed(RotationsPerSecond.of(500));
+        
+      
+        private static void setRPM(double d) {
+          // TODO Auto-generated method stub
+          throw new UnsupportedOperationException("Unimplemented method 'setRPM'");
+        }
+      
+        public Command stop() {
     return setSpeed(RPM.of(0));
     // return run(() -> {
 
@@ -148,6 +176,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() { // fix me \/
     //Logger.log("Shooter/LeaderVelocity", leaderSpark.getEncoder().getVelocity());
     //Logger.log("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
+    SmartDashboard.putString("Shooter RPM", shooter.getSpeed().toString());
+    SmartDashboard.putNumber("shooterSpeed", shooterSpeed);
   }
 
   @Override
@@ -166,4 +196,6 @@ public class ShooterSubsystem extends SubsystemBase {
     return MetersPerSecond.of(getSpeed().in(RadiansPerSecond)
         * wheelRadius().in(Meters));
   }
-}
+public class RPMIncrease {
+
+}}
