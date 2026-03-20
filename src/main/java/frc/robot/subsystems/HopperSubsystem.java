@@ -31,7 +31,7 @@ public class HopperSubsystem extends SubsystemBase {
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.OPEN_LOOP)
-      .withTelemetry("HopperMotor", TelemetryVerbosity.HIGH)
+      .withTelemetry("HopperMotor", TelemetryVerbosity.LOW)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(4))) // 4:1 gear reduction
       .withMotorInverted(true)
       .withIdleMode(MotorMode.BRAKE)
@@ -44,7 +44,7 @@ public class HopperSubsystem extends SubsystemBase {
       .withMass(Pounds.of(0.5))
       .withUpperSoftLimit(RPM.of(6000))
       .withLowerSoftLimit(RPM.of(-6000))
-      .withTelemetry("Hopper", TelemetryVerbosity.HIGH);
+      .withTelemetry("Hopper", TelemetryVerbosity.LOW);
 
   private FlyWheel hopper = new FlyWheel(hopperConfig);
 

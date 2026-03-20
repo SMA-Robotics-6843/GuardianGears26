@@ -269,7 +269,7 @@ public class Superstructure extends SubsystemBase {
     return Commands.parallel(
         hopper.stopCommand().asProxy(),
         kicker.stopCommand().asProxy(),
-        intake.deployAndRollCommand().asProxy()).withName("Superstructure.stopFeedingAll");
+        intake.intakeStopCommand().asProxy()).withName("Superstructure.stopFeedingAll");
   }
 
   /**

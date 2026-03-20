@@ -80,7 +80,7 @@ public class OperatorControls {
 
     // controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
     // controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(23)));
-    controller.y().and(controller.leftBumper()).whileTrue(superstructure.intakeArmUpSuperstructure());
+    controller.x().and(controller.leftBumper()).whileTrue(superstructure.intakeArmUpSuperstructure());
     controller.y().whileTrue(superstructure.intakeArmDownSuperstructure());
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
@@ -88,7 +88,7 @@ public class OperatorControls {
     
     controller.a().and(controller.b()).whileTrue(superstructure.backFeedAllCommand());
     
-    controller.b().onTrue(superstructure.intakeCommand());// fix me im not workinging help 
+    controller.b().whileTrue(superstructure.intakeCommand());// fix me im not workinging help 
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
    
     controller.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
@@ -105,10 +105,10 @@ public class OperatorControls {
                  //controller.leftBumper()
                     //.whileTrue(superstructure.ejectCommand());
             
-                  controller.leftBumper().toggleOnTrue(
-                    new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
-                        .ignoringDisable(true)
-                        .withName("OperatorControls.aimCommand"));
+                  //controller.leftBumper().toggleOnTrue(
+                    //new ShootOnTheMoveCommand(drivetrain, superstructure, () -> superstructure.getAimPoint())
+                        //.ignoringDisable(true)
+                        //.withName("OperatorControls.aimCommand"));
               }
     
        

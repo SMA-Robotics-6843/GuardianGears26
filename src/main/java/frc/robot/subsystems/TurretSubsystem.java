@@ -60,7 +60,7 @@ public class TurretSubsystem extends SubsystemBase {
       .withControlMode(ControlMode.CLOSED_LOOP)
       .withClosedLoopController(15.0, 0, 0, DegreesPerSecond.of(2440), DegreesPerSecondPerSecond.of(2440))
       .withFeedforward(new SimpleMotorFeedforward(0, 7.5, 0))
-      .withTelemetry("TurretMotor", TelemetryVerbosity.HIGH)
+      .withTelemetry("TurretMotor", TelemetryVerbosity.LOW)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(4, 10)))
       .withMotorInverted(true)
       .withIdleMode(MotorMode.COAST)
@@ -75,7 +75,7 @@ public class TurretSubsystem extends SubsystemBase {
       .withHardLimit(Degrees.of(-MAX_ONE_DIR_FOV - 5), Degrees.of(MAX_ONE_DIR_FOV + 5))
       .withStartingPosition(Degrees.of(0))
       .withMOI(0.05)
-      .withTelemetry("Turret", TelemetryVerbosity.HIGH)
+      .withTelemetry("Turret", TelemetryVerbosity.LOW)
       .withMechanismPositionConfig(
           new MechanismPositionConfig().withMovementPlane(Plane.XY).withRelativePosition(turretTranslation));
 

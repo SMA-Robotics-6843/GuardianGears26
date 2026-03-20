@@ -45,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.OPEN_LOOP)
-      .withTelemetry("IntakeRollerMotor", TelemetryVerbosity.HIGH)
+      .withTelemetry("IntakeRollerMotor", TelemetryVerbosity.LOW)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(1))) // Direct drive, adjust if geared
       .withMotorInverted(true)
       .withIdleMode(MotorMode.COAST)
@@ -58,7 +58,7 @@ public class IntakeSubsystem extends SubsystemBase {
       .withMass(Pounds.of(0.5))
       .withUpperSoftLimit(RPM.of(6000))
       .withLowerSoftLimit(RPM.of(-6000))
-      .withTelemetry("IntakeRoller", TelemetryVerbosity.HIGH);
+      .withTelemetry("IntakeRoller", TelemetryVerbosity.LOW);
 
   private FlyWheel intake = new FlyWheel(intakeConfig);
 
@@ -67,7 +67,7 @@ public class IntakeSubsystem extends SubsystemBase {
       .withControlMode(ControlMode.CLOSED_LOOP)
       .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
       .withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
-      .withTelemetry("IntakePivotMotor", TelemetryVerbosity.HIGH)
+      .withTelemetry("IntakePivotMotor", TelemetryVerbosity.LOW)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 / 18.0)))
       // .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 /
       // 18.0, 42)))
@@ -84,12 +84,12 @@ public class IntakeSubsystem extends SubsystemBase {
       intakePivotSmartMotorConfig);
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
-      //.withSoftLimits(Degrees.of(0), Degrees.of(150))
-      //.withHardLimit(Degrees.of(0), Degrees.of(155))
+      .withSoftLimits(Degrees.of(0), Degrees.of(170))
+      .withHardLimit(Degrees.of(0), Degrees.of(180))
       .withStartingPosition(Degrees.of(0))
       .withLength(Feet.of(1))
       .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
-      .withTelemetry("IntakePivot", TelemetryVerbosity.HIGH);
+      .withTelemetry("IntakePivot", TelemetryVerbosity.LOW);
 
   private Arm intakePivot = new Arm(intakePivotConfig);
 
@@ -104,7 +104,14 @@ public class IntakeSubsystem extends SubsystemBase {
    * Command to run the intake while held.
    */
   public Command intakeCommand() {
-    return intake.set(INTAKE_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Intake.Run");
+    return intake.set(INTAKE_SPEED).withName("Intake.Run");
+  }
+
+    /**
+   * Command to run the intake while held.
+   */
+  public Command intakeStopCommand() {
+    return intake.set(0).withName("Intake.Stop");
   }
 
   /**
