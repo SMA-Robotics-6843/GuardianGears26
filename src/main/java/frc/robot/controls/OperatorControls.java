@@ -80,12 +80,12 @@ public class OperatorControls {
 
     // controller.y().onTrue(superstructure.setIntakeDeployAndRoll());
     // controller.y().and(controller.leftBumper()).whileTrue(superstructure.setIntakePivotAngle(Degrees.of(23)));
-    controller.x().and(controller.leftBumper()).whileTrue(superstructure.intakeArmUpSuperstructure());
-    controller.y().whileTrue(superstructure.intakeArmDownSuperstructure());
+    controller.y().whileTrue(superstructure.setIntakeStowCommand());
+    controller.x().whileTrue(superstructure.setIntakeDeployedCommand());
 
     controller.a().onTrue(superstructure.kickerFeedCommand());
+    controller.a().onTrue(superstructure.shootCommand()); //subject to change
     controller.a().onTrue(superstructure.hopperFeedCommand());
-    
     controller.a().and(controller.b()).whileTrue(superstructure.backFeedAllCommand());
     
     controller.b().whileTrue(superstructure.intakeCommand());// fix me im not workinging help 

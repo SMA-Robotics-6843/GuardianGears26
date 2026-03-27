@@ -7,19 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "StartToClose"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ScoreCoral"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CloseToFeeder"
+            "pathName": "move to fuel"
           }
         },
         {

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import java.lang.System.Logger;
 import java.util.function.Supplier;
 
 
@@ -42,6 +41,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.epilogue.Logged;
+import org.littletonrobotics.junction.Logger;
 
 
 
@@ -65,12 +65,12 @@ public class ShooterSubsystem extends SubsystemBase {
       .withFollowers(Pair.of(followerSpark, true))
       .withControlMode(ControlMode.CLOSED_LOOP)
       .withClosedLoopController(0.00936, 0, 0)
-      .withFeedforward(new SimpleMotorFeedforward(0.191, 0.11858, 0.0))
-      .withTelemetry("ShooterMotor", TelemetryVerbosity.LOW)
+      .withFeedforward(new SimpleMotorFeedforward(0.191, 0.13, 0.5))
+      .withTelemetry("ShooterMotor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
       .withMotorInverted(true)
       .withIdleMode(MotorMode.COAST)
-      .withStatorCurrentLimit(Amps.of(40));
+      .withStatorCurrentLimit(Amps.of(30));
 
   private final SmartMotorController smc = new SparkWrapper(leaderSpark, DCMotor.getNEO(2), smcConfig);
 
@@ -79,7 +79,7 @@ public class ShooterSubsystem extends SubsystemBase {
       .withMass(Pounds.of(1))
       .withUpperSoftLimit(RPM.of(6000))
       .withLowerSoftLimit(RPM.of(0))
-      .withTelemetry("Shooter", TelemetryVerbosity.LOW);
+      .withTelemetry("Shooter", TelemetryVerbosity.HIGH);
 
   private final FlyWheel shooter = new FlyWheel(shooterConfig);
 
@@ -174,10 +174,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() { // fix me \/
-    //Logger.log("Shooter/LeaderVelocity", leaderSpark.getEncoder().getVelocity());
-    //Logger.log("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
+    Logger.recordOutput("Shooter/LeaderVelocity", leaderSpark.getEncoder().getVelocity());
+    Logger.recordOutput("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
+    Logger.recordOutput("Shooter/LeaderVoltage", leaderSpark.getBusVoltage());
+    Logger.recordOutput("Shooter/FollowerVoltage", followerSpark.getBusVoltage());
     SmartDashboard.putString("Shooter RPM", shooter.getSpeed().toString());
     SmartDashboard.putNumber("shooterSpeed", shooterSpeed);
+    SmartDashboard.putNumber("leaderPosition", leaderSpark.getEncoder().getPosition());
+    SmartDashboard.putNumber("followerPosition", followerSpark.getEncoder().getPosition());
   }
 
   @Override

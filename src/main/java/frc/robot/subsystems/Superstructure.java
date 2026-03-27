@@ -234,6 +234,17 @@ public class Superstructure extends SubsystemBase {
     return kicker.feedCommand().withName("Superstructure.kickerFeed");
   }
 
+  public Command setIntakeStowCommand() {
+    return intake.setIntakeStow().withName("Superstructure.setIntakeStowCommand");
+  }
+
+  public Command setIntakeHoldCommand() {
+    return intake.setIntakeHold().withName("Superstructure.setIntakeHoldCommand");
+  }
+
+  public Command setIntakeDeployedCommand() {
+    return intake.setIntakeDeployed().withName("Superstructure.setIntakeDeployedCommand");
+  }
   /**
    * Command to run the kicker stop while held, stops when released.
    */

@@ -105,13 +105,17 @@ public class RobotContainer {
   private void buildNamedAutoCommands() {
     // Add any auto commands to the NamedCommands here
 
-    NamedCommands.registerCommand("driveBackwards",
-        drivetrain.driveBackwards(1)
-            .withName("Auto.driveBackwards"));
+    NamedCommands.registerCommand("begin intake",
+        superstructure.intakeCommand()
+            .withName("begin intake"));
 
     NamedCommands.registerCommand("driveForwards",
         drivetrain.driveForward(2)
             .withName("Auto.driveForwards"));
+            
+    NamedCommands.registerCommand("shoot command",
+        superstructure.shootCommand()
+            .withName("shoot command"));
   }
 
   public Command getAutonomousCommand() {

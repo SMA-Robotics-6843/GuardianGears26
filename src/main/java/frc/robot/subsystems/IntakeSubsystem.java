@@ -15,7 +15,11 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Seconds;
+
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -52,7 +56,7 @@ public class IntakeSubsystem extends SubsystemBase {
       .withStatorCurrentLimit(Amps.of(40));
 
   private SmartMotorController smc = new SparkWrapper(rollerSpark, DCMotor.getNEO(1), smcConfig);
-
+  
   private final FlyWheelConfig intakeConfig = new FlyWheelConfig(smc)
       .withDiameter(Inches.of(4))
       .withMass(Pounds.of(0.5))
@@ -84,8 +88,8 @@ public class IntakeSubsystem extends SubsystemBase {
       intakePivotSmartMotorConfig);
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
-      .withSoftLimits(Degrees.of(0), Degrees.of(170))
-      .withHardLimit(Degrees.of(0), Degrees.of(180))
+      //.withSoftLimits(Degrees.of(0), Degrees.of(170))
+      //.withHardLimit(Degrees.of(0), Degrees.of(180))
       .withStartingPosition(Degrees.of(0))
       .withLength(Feet.of(1))
       .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
@@ -93,10 +97,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private Arm intakePivot = new Arm(intakePivotConfig);
 
-  private PIDController pivotPID = new PIDController(25, 0, 0);
+  private PIDController pivotPID = new PIDController(2, 0, 0);
 
   public IntakeSubsystem() {
     this.setDefaultCommand(run(()->IntakeMotor.set(0)));
+    pivotPID.setTolerance(.02);
     // pivotMotor.factoryReset();
   }
 
@@ -128,7 +133,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command intakeArmDown () {
    return run(()->{
       IntakeMotor.set(0.3);
-      System.out.println ("intake down works");
     });
   };
 
@@ -167,29 +171,35 @@ public class IntakeSubsystem extends SubsystemBase {
     }).withName("Intake.BackFeedAndRoll");
   }
 
-  private void setIntakeStow() {
-   intakePivotController.setPosition(Degrees.of(0));
+  public Command setIntakeStow() {
+    return Commands.run(() -> {
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .22));
+    SmartDashboard.putNumber("intake PID output", pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .22));
+    System.out.println("intake stow");
+  });
+    
   }
 
-  private void setIntakeFeed() {
-    intakePivotController.setPosition(Degrees.of(59));
-  }
+  public Command setIntakeHold() {
+    return Commands.run(() -> {
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .39));
+    System.out.println("intake hold");
+  });
+  } 
 
-  private void setIntakeHold() {
-    intakePivotController.setPosition(Degrees.of(115));
-  }
-
-  private void setIntakeDeployed() {
-    System.out.println("setIntakeDeployed");
-    //intakePivotController.setPosition(Degrees.of(23));
-    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getEncoder().getPosition(), .39));
+  public Command setIntakeDeployed() {
+   return Commands.run(() -> {
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .68));
+    System.out.println("intake deploy");
+    });
   }
 
   @Override
   public void periodic() {
     intake.updateTelemetry();
     intakePivot.updateTelemetry();
-    SmartDashboard.putNumber("intakePivot Encpder", IntakeMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("intakePivot Encoder", IntakeMotor.getAbsoluteEncoder().getPosition());
+    SmartDashboard.putBoolean("intake at setpoint", pivotPID.atSetpoint());
   }
 
   @Override
