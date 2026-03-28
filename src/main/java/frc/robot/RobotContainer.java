@@ -2,6 +2,7 @@
 package frc.robot;
 
 import java.io.File;
+import java.security.spec.NamedParameterSpec;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -116,6 +117,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("shoot command",
         superstructure.shootCommand()
             .withName("shoot command"));
+    NamedCommands.registerCommand(("Hopper Run"), 
+      superstructure.hopperFeedCommand()
+         .withName("HopperRun"));
+    NamedCommands.registerCommand("KickerRun",
+       superstructure.kickerFeedCommand()
+         .withName("KickerRun"));
   }
 
   public Command getAutonomousCommand() {

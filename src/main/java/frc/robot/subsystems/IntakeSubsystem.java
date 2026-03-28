@@ -89,7 +89,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private final ArmConfig intakePivotConfig = new ArmConfig(intakePivotController)
       //.withSoftLimits(Degrees.of(0), Degrees.of(170))
-      //.withHardLimit(Degrees.of(0), Degrees.of(180))
+      .withHardLimit(Degrees.of(0), Degrees.of(180))
       .withStartingPosition(Degrees.of(0))
       .withLength(Feet.of(1))
       .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
