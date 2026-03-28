@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.557,
-        "y": 4.062
+        "x": 3.5164457831325304,
+        "y": 6.176831325301205
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.254496174070978,
-        "y": 4.062
+        "x": 3.1995421686746996,
+        "y": 6.045698795180724
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.3853132530120478,
-        "y": 4.00221686746988
+        "x": 2.369971469329529,
+        "y": 6.0081455064194005
       },
       "prevControl": {
-        "x": 3.6353132530120478,
-        "y": 4.00221686746988
+        "x": 2.894501589811457,
+        "y": 6.215772012443497
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,26 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "shoot command",
+      "waypointRelativePos": 0.02962962962963705,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    },
+    {
+      "name": "KickerRun",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "HopperRun",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -42,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 88.43064519525106
+    "rotation": -42.51044707800092
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 88.26416050340777
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

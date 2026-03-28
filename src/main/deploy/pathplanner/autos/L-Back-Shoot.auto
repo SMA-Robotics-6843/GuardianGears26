@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Back"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot command"
+            "pathName": "L-Back"
           }
         }
       ]
