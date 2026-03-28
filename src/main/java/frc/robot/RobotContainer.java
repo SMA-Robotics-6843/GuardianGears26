@@ -123,6 +123,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("KickerRun",
        superstructure.kickerFeedCommand()
          .withName("KickerRun"));
+    NamedCommands.registerCommand("IntakeRun",
+       superstructure.intakeCommand()
+         .withName("IntakeRun"));
   }
 
   public Command getAutonomousCommand() {
