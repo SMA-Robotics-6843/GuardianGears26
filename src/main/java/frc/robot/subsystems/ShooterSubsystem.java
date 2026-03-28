@@ -110,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public Command spinup() {
-    return setSpeed(RPM.of(shooterSpeed)); // i dont know how to make a command
+    return setSpeed(RPM.of(shooterSpeed))/*.until(shooter.isNear(RPM.of(shooterSpeed), RPM.of(100)))*/; // i dont know how to make a command
   }
 
   public Command upShootSpeedCommand() {
