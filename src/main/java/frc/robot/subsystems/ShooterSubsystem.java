@@ -64,13 +64,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private final SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withFollowers(Pair.of(followerSpark, true))
       .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(0.00936, 0, 0)
-      .withFeedforward(new SimpleMotorFeedforward(0.191, 0.13, 0.5))
+      .withClosedLoopController(0.085, 0, 0)
+      .withFeedforward(new SimpleMotorFeedforward(0.60, 0.1085, 0))
       .withTelemetry("ShooterMotor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
       .withMotorInverted(true)
       .withIdleMode(MotorMode.COAST)
-      .withStatorCurrentLimit(Amps.of(30));
+      .withStatorCurrentLimit(Amps.of(40));
 
   private final SmartMotorController smc = new SparkWrapper(leaderSpark, DCMotor.getNEO(2), smcConfig);
 
@@ -178,7 +178,7 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.recordOutput("Shooter/FollowerVelocity", followerSpark.getEncoder().getVelocity());
     Logger.recordOutput("Shooter/LeaderVoltage", leaderSpark.getBusVoltage());
     Logger.recordOutput("Shooter/FollowerVoltage", followerSpark.getBusVoltage());
-    SmartDashboard.putString("Shooter RPM", shooter.getSpeed().toString());
+    SmartDashboard.putNumber("Shooter RPM", shooter.getSpeed().in(RPM));
     SmartDashboard.putNumber("shooterSpeed", shooterSpeed);
     SmartDashboard.putNumber("leaderPosition", leaderSpark.getEncoder().getPosition());
     SmartDashboard.putNumber("followerPosition", followerSpark.getEncoder().getPosition());
