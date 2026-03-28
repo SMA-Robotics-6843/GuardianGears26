@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkFlex;
 
 import edu.wpi.first.math.Pair;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import static edu.wpi.first.units.Units.Amps;
@@ -84,6 +85,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private final FlyWheel shooter = new FlyWheel(shooterConfig);
 
   private int shooterSpeed = 4200;
+
+  // private final PIDController shooterPID = new PIDController(.01, 0, 0);
+  // private final SimpleMotorFeedforward shooterFeedforward = new SimpleMotorFeedforward(.06, .1139, 0);
 
 
   public ShooterSubsystem() {
@@ -182,6 +186,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("shooterSpeed", shooterSpeed);
     SmartDashboard.putNumber("leaderPosition", leaderSpark.getEncoder().getPosition());
     SmartDashboard.putNumber("followerPosition", followerSpark.getEncoder().getPosition());
+    // SmartDashboard.putNumber("Shooter control output", (shooterPID.calculate(shooter.getSpeed().in(RPM), shooterSpeed))/*  + (shooterFeedforward.calculate(shooterSpeed))*/);
   }
 
   @Override
