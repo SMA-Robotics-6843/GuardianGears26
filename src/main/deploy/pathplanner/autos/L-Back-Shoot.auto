@@ -5,9 +5,47 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "L-Back"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "L-Back"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot command"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "KickerRun"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "HopperRun"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot command"
+                }
+              }
+            ]
           }
         }
       ]

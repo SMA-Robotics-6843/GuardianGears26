@@ -84,6 +84,7 @@ public class RobotContainer {
 
     // Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
+    
 
     // Set the default auto (do nothing)
     autoChooser.setDefaultOption("Do Nothing", Commands.none());
@@ -117,7 +118,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("shoot command",
         superstructure.shootCommand()
             .withName("shoot command"));
-    NamedCommands.registerCommand(("Hopper Run"), 
+    NamedCommands.registerCommand(("HopperRun"), 
       superstructure.hopperFeedCommand()
          .withName("HopperRun"));
     NamedCommands.registerCommand("KickerRun",
