@@ -64,8 +64,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withFollowers(Pair.of(followerSpark, true))
       .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(0.085, 0, 0)
-      .withFeedforward(new SimpleMotorFeedforward(0.60, 0.1085, 0))
+      .withClosedLoopController(0.110, 0, 0)
+      .withFeedforward(new SimpleMotorFeedforward(0.06, 0.1139, 0))
       .withTelemetry("ShooterMotor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
       .withMotorInverted(true)
@@ -83,7 +83,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final FlyWheel shooter = new FlyWheel(shooterConfig);
 
-  private int shooterSpeed = 4500;
+  private int shooterSpeed = 4200;
 
 
   public ShooterSubsystem() {
@@ -150,7 +150,7 @@ public class ShooterSubsystem extends SubsystemBase {
         }
       
         public Command stop() {
-    return setSpeed(RPM.of(0));
+          return setSpeed(RPM.of(0)).finallyDo(() -> smc.setDutyCycle(0));
     // return run(() -> {
 
     // // leaderNova.setPercent(0);
