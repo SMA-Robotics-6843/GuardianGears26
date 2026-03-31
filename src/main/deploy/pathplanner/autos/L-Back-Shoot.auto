@@ -19,6 +19,12 @@
                 "data": {
                   "name": "shoot command"
                 }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
               }
             ]
           }
