@@ -116,7 +116,7 @@ public class RobotContainer {
             .withName("Auto.driveForwards"));
             
     NamedCommands.registerCommand("shoot command",
-        superstructure.shootCommand()
+        superstructure.shootCommandAuto()
             .withName("shoot command"));
     NamedCommands.registerCommand(("HopperRun"), 
       superstructure.hopperFeedCommand()

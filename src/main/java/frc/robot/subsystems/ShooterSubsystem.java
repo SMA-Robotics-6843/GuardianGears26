@@ -65,13 +65,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private final SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withFollowers(Pair.of(followerSpark, true))
       .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(0.110, 0, 0)
+      .withClosedLoopController(0.10, 0, 0)
       .withFeedforward(new SimpleMotorFeedforward(0.06, 0.1139, 0))
       .withTelemetry("ShooterMotor", TelemetryVerbosity.HIGH)
       .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
       .withMotorInverted(true)
       .withIdleMode(MotorMode.COAST)
-      .withStatorCurrentLimit(Amps.of(40));
+      .withStatorCurrentLimit(Amps.of(60));
 
   private final SmartMotorController smc = new SparkWrapper(leaderSpark, DCMotor.getNEO(2), smcConfig);
 
@@ -83,8 +83,8 @@ public class ShooterSubsystem extends SubsystemBase {
       .withTelemetry("Shooter", TelemetryVerbosity.HIGH);
 
   private final FlyWheel shooter = new FlyWheel(shooterConfig);
-
-  private int shooterSpeed = 4200;
+// autos speed is 2950 regular 3100
+  private int shooterSpeed = 3100;
 
   // private final PIDController shooterPID = new PIDController(.01, 0, 0);
   // private final SimpleMotorFeedforward shooterFeedforward = new SimpleMotorFeedforward(.06, .1139, 0);
@@ -107,6 +107,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public Command setSpeed(AngularVelocity speed) {
     return shooter.setSpeed(speed);
+    // run(() -> {
+    //   leaderSpark.set(1);
+    //   followerSpark.set(1);
+    // });
   }
 
   public Command setSpeedDynamic(Supplier<AngularVelocity> speedSupplier) {
@@ -114,7 +118,14 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public Command spinup() {
-    return setSpeed(RPM.of(shooterSpeed))/*.until(shooter.isNear(RPM.of(shooterSpeed), RPM.of(100)))*/; // i dont know how to make a command
+    return Commands.parallel(
+      //runOnce(() -> System.out.println(shooterSpeed)),
+      setSpeed(RPM.of(shooterSpeed))
+    );
+  }
+
+  public Command spinupAuto() {
+    return setSpeed(RPM.of(shooterSpeed)).until(shooter.isNear(RPM.of(shooterSpeed), RPM.of(100)));
   }
 
   public Command upShootSpeedCommand() {
@@ -147,11 +158,6 @@ public class ShooterSubsystem extends SubsystemBase {
           // return shooter.set(0.5);
           // return shooter.setSpeed(RotationsPerSecond.of(500));
         
-      
-        private static void setRPM(double d) {
-          // TODO Auto-generated method stub
-          throw new UnsupportedOperationException("Unimplemented method 'setRPM'");
-        }
       
         public Command stop() {
           return setSpeed(RPM.of(0)).finallyDo(() -> smc.setDutyCycle(0));

@@ -98,6 +98,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private Arm intakePivot = new Arm(intakePivotConfig);
 
   private PIDController pivotPID = new PIDController(2, 0, 0);
+  private double setpoint = .22;
 
   public IntakeSubsystem() {
     this.setDefaultCommand(run(()->IntakeMotor.set(0)));
@@ -139,7 +140,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command intakeArmUp () {
    return run(()->{
       IntakeMotor.set(-0.3);
-      System.out.println ("intake up works");
     });
   };
 
@@ -173,23 +173,23 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public Command setIntakeStow() {
     return Commands.run(() -> {
+    setpoint = .22;
     IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .22));
-    SmartDashboard.putNumber("intake PID output", pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .22));
-    System.out.println("intake stow");
   });
     
   }
 
   public Command setIntakeHold() {
     return Commands.run(() -> {
+    setpoint = .39;
     IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .39));
-    System.out.println("intake hold");
   });
   } 
 
   public Command setIntakeDeployed() {
    return Commands.run(() -> {
-    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .68));
+    setpoint = .62;
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .62));
     System.out.println("intake deploy");
     });
   }
@@ -200,6 +200,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakePivot.updateTelemetry();
     SmartDashboard.putNumber("intakePivot Encoder", IntakeMotor.getAbsoluteEncoder().getPosition());
     SmartDashboard.putBoolean("intake at setpoint", pivotPID.atSetpoint());
+    SmartDashboard.putNumber("intake PID output", pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), setpoint));
   }
 
   @Override

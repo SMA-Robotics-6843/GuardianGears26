@@ -311,6 +311,14 @@ public class Superstructure extends SubsystemBase {
     return shooter.spinup().withName("Superstructure.shoot");
   }
 
+  /**
+   * Command to shoot - spins up shooter, ends when in rpm range.
+   */
+  public Command shootCommandAuto() {
+    // return shooter.sysId().withName("Superstructure.shoot");
+    return shooter.spinupAuto().withName("Superstructure.shoot");
+  }
+
   public Command upShootSpeedCommand() {
     // return shooter.sysId().withName("Superstructure.shoot");
     return shooter.upShootSpeedCommand();
