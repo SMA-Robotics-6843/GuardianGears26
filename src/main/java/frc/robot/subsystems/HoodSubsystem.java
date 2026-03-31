@@ -50,7 +50,7 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   public Command setAngleDynamic(Supplier<Angle> hoodAngleSupplier) {
-    // TODO: Uncomment when hood is enabled
+    // TODO: Uncomment when hood is enabled 
     // return hood.setAngle(hoodAngleSupplier);
     return Commands.run(() -> {
     });

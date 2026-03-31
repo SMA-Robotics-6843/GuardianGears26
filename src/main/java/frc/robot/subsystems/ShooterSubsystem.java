@@ -85,6 +85,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final FlyWheel shooter = new FlyWheel(shooterConfig);
 // autos speed is 2950 regular 3100
   private int shooterSpeed = 3100;
+  private int autoShooterSpeed = 2950;
 
   // private final PIDController shooterPID = new PIDController(.01, 0, 0);
   // private final SimpleMotorFeedforward shooterFeedforward = new SimpleMotorFeedforward(.06, .1139, 0);
@@ -125,7 +126,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public Command spinupAuto() {
-    return setSpeed(RPM.of(shooterSpeed)).until(shooter.isNear(RPM.of(shooterSpeed), RPM.of(100)));
+    return setSpeed(RPM.of(autoShooterSpeed)).until(shooter.isNear(RPM.of(autoShooterSpeed), RPM.of(100)));
   }
 
   public Command upShootSpeedCommand() {
