@@ -127,6 +127,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeRun",
        superstructure.intakeCommand()
          .withName("IntakeRun"));
+    NamedCommands.registerCommand("IntakeDown",
+    superstructure.intakeArmDownSuperstructure()
+        .withName("IntakeDown"));
+    
   }
 
   public Command getAutonomousCommand() {
