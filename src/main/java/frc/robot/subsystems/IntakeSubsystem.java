@@ -133,13 +133,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public Command intakeArmDown () {
    return run(()->{
-      IntakeMotor.set(0.3);
+      IntakeMotor.set(0.772);
     });
   };
 
   public Command intakeArmUp () {
    return run(()->{
-      IntakeMotor.set(-0.3);
+      IntakeMotor.set(0.386);
     });
   };
 
@@ -173,23 +173,23 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public Command setIntakeStow() {
     return Commands.run(() -> {
-    setpoint = .22;
-    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .22));
+    setpoint = .386;
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .386));
   });
     
   }
 
   public Command setIntakeHold() {
     return Commands.run(() -> {
-    setpoint = .39;
-    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .39));
+    setpoint = 0.386;
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), 0.386));
   });
   } 
 
   public Command setIntakeDeployed() {
    return Commands.run(() -> {
-    setpoint = .62;
-    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .62));
+    setpoint = .772;
+    IntakeMotor.set(pivotPID.calculate(IntakeMotor.getAbsoluteEncoder().getPosition(), .772));
     System.out.println("intake deploy");
     });
   }
