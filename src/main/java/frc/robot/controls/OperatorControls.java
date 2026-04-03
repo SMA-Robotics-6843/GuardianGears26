@@ -91,9 +91,9 @@ public class OperatorControls {
     controller.b().whileTrue(superstructure.intakeCommand());// fix me im not workinging help 
     controller.b().and(controller.leftBumper()).whileTrue(superstructure.stopFeedingAllCommand());
    
-    controller.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
-    controller.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
-    controller.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
+    controller.povUp().whileTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
+    controller.povLeft().whileTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
+    controller.povRight().whileTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
 
     controller.rightTrigger().onTrue(superstructure.upShootSpeedCommand());
     controller.leftTrigger().onTrue(superstructure.downShootSpeedCommand());

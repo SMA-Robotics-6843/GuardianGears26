@@ -97,7 +97,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private Arm intakePivot = new Arm(intakePivotConfig);
 
-  private PIDController pivotPID = new PIDController(2, 0, 0);
+  private PIDController pivotPID = new PIDController(1, 0, 0);
   private double setpoint = .22;
 
   public IntakeSubsystem() {

@@ -144,7 +144,7 @@ public class Superstructure extends SubsystemBase {
   }
 
   public Command setTurretForward() {
-    return turret.setAngle(Degrees.of(0)).withName("Superstructure.setTurretForward");
+    return turret.setAngle(Degrees.of(75)).withName("Superstructure.setTurretForward");
   }
 
   public Command setTurretLeft() {

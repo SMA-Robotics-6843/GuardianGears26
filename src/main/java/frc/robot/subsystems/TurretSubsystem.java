@@ -58,14 +58,14 @@ public class TurretSubsystem extends SubsystemBase {
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
-      .withClosedLoopController(15.0, 0, 0, DegreesPerSecond.of(2440), DegreesPerSecondPerSecond.of(2440))
+      .withClosedLoopController(3.0, 0, 0, DegreesPerSecond.of(180), DegreesPerSecondPerSecond.of(90))
       .withFeedforward(new SimpleMotorFeedforward(0, 7.5, 0))
-      .withTelemetry("TurretMotor", TelemetryVerbosity.LOW)
-      .withGearing(new MechanismGearing(GearBox.fromReductionStages(4, 10)))
+      .withTelemetry("TurretMotor", TelemetryVerbosity.HIGH)
+      .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 10)))
       .withMotorInverted(true)
       .withIdleMode(MotorMode.BRAKE)
       .withSoftLimit(Degrees.of(-MAX_ONE_DIR_FOV), Degrees.of(MAX_ONE_DIR_FOV))
-      .withStatorCurrentLimit(Amps.of(10))
+      .withStatorCurrentLimit(Amps.of(25))
       .withClosedLoopRampRate(Seconds.of(0.1))
       .withOpenLoopRampRate(Seconds.of(0.1));
 
@@ -73,11 +73,11 @@ public class TurretSubsystem extends SubsystemBase {
 
   private final PivotConfig turretConfig = new PivotConfig(smc)
       .withHardLimit(Degrees.of(-MAX_ONE_DIR_FOV - 5), Degrees.of(MAX_ONE_DIR_FOV + 5))
-      .withStartingPosition(Degrees.of(0))
+      .withStartingPosition(Degrees.of(90))
       .withMOI(0.05)
-      .withTelemetry("Turret", TelemetryVerbosity.LOW)
-      .withMechanismPositionConfig(
-          new MechanismPositionConfig().withMovementPlane(Plane.XY).withRelativePosition(turretTranslation));
+      .withTelemetry("Turret", TelemetryVerbosity.HIGH);
+//      .withMechanismPositionConfig(
+//          new MechanismPositionConfig().withMovementPlane(Plane.XY).withRelativePosition(turretTranslation));
 
   private Pivot turret = new Pivot(turretConfig);
 

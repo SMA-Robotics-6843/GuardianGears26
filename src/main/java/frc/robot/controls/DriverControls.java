@@ -100,6 +100,7 @@ private static PathConstraints constraints = new PathConstraints(
 
                 // reset the field-centric heading on right stick press
                 controller.rightStick().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+                controller.b().onTrue(superstructure.rezeroIntakePivotAndTurretCommand());
 
 
 
